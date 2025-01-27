@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>HTML Template</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<style>
+    .Plant {
+        position: relative;
+        flex: 1;
+        height: 100%;
+        max-width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+    }
+
+    .PPStem1 {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 10px;
+        width: 12px;
+        background-color: rgb(0, 184, 0);
+        border-right: rgb(0, 131, 0) 5px solid;
+        border-top-right-radius: 25px;
+        border-top-left-radius: 25px;
+        box-shadow: 2px 2px;
+    }
+
+    .LeafForward {
+        position: absolute;
+        width: 40px;
+        height: 30px;
+        left: 25%;
+        bottom: 120px;
+        background-color: green;
+        border-bottom-left-radius: 25px;
+        border-top-left-radius: 40px;
+        border-bottom-right-radius: 10px;
+        border-top-right-radius: 10px;
+        border-bottom: lightgreen solid 1px;
+        border-left: lightgreen solid 1px;
+        box-shadow: 2px 2px;
+    }
+
+    .LeafBackwards {
+        position: absolute;
+        width: 40px;
+        height: 30px;
+        right: 25%;
+        bottom: 120px;
+        background-color: green;
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px;
+        border-bottom-right-radius: 25px;
+        border-top-right-radius: 40px;
+        border-bottom: lightgreen solid 1px;
+        border-left: lightgreen solid 1px;
+        box-shadow: 2px 2px;
+    }
+
+
+
+    .Potato {
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 30px;
+        height: 20px;
+        border-top-left-radius: 50px;
+        border-top-right-radius: 50px;
+        background-color: rgb(149, 105, 59);
+        z-index: 1;
+        border-left: rgb(164, 124, 82) solid 5px;
+        box-shadow: 2px 2px;
+    }
+
+    .Container {
+        align-items: center;
+        height: 500px;
+        width: 100%;
+    }
+
+    .Plot {
+        position: relative;
+        height: 160px;
+        width: 150px;
+        background-color: rgb(75, 58, 48);
+        border-bottom: rgb(101, 87, 84) 15px solid;
+        align-items: center;
+    }
+
+    .PlantContainer {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 160px;
+        width: 150px;
+        overflow: visible;
+        gap: 0;
+    }
+
+    .Farms {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0px;
+        justify-content: flex-start;
+        padding: 10px;
+        box-sizing: border-box;
+        max-width: 100%;
+    }
+
+    .PlantOptions {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        height: 500px;
+        width: 400px;
+        background-color: aliceblue;
+        border-radius: 50px;
+        border: none;
+        box-shadow: 5px 5px black;
+        z-index: 1;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        text-align: center;
+    }
+
+    .PlantOptions h3 {
+        color: white;
+        font-size: 60px;
+        -webkit-text-stroke: 2px black;
+    }
+
+    .PlantOptions button {
+        background-color: crimson;
+        border: 15px solid brown;
+        border-radius: 25px;
+        height: 75px;
+        width: 275px;
+        color: white;
+        font-size: 20px;
+        transition: ease 500ms;
+    }
+
+    .PlantOptions button:hover {
+        background-color: rgb(226, 72, 103);
+        border: 15px solid rgb(235, 32, 32);
+        border-radius: 25px;
+        height: 75px;
+        width: 275px;
+        color: white;
+        font-size: 20px;
+    }
+
+    .Carrot {
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 30px;
+        height: 20px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        border-bottom-left-radius: 10%;
+        border-bottom-right-radius: 10%;
+        background-color: rgb(223, 100, 0);
+        z-index: 1;
+        border-left: rgb(209, 124, 33) solid 5px;
+        box-shadow: 2px 2px;
+    }
+</style>
+
+<body>
+    <p id="OutputText">Hi</p>
+    <div id="Container"></div>
+
+    <div class="Plant" style="display: none;" id="CopyablePatatoPlant">
+        <div class="PPLVL1" style="visibility: hidden;">
+            <div class="PPStem1"></div>
+        </div>
+        <div class="PPLVL2" style="visibility: hidden;">
+            <div class="PPStem1" style="height: 50px;"></div>
+        </div>
+        <div class="PPLVL3" style="visibility: hidden;">
+            <div class="Potato"></div>
+            <div class="PPStem1" style="height: 150px;"></div>
+            <div class="LeafForward"></div>
+            <div class="LeafBackwards" style="bottom: 75px;"></div>
+        </div>
+    </div>
+    <div class="Plant" style="display: none;" id="CopyableCarrotPlant">
+        <div class="PPLVL1" style="visibility: hidden;">
+            <div class="PPStem1"></div>
+        </div>
+        <div class="PPLVL2" style="visibility: hidden;">
+            <div class="PPStem1" style="height: 50px;"></div>
+        </div>
+        <div class="PPLVL3" style="visibility: hidden;">
+            <div class="Carrot"></div>
+            <div class="PPStem1" style="height: 150px;"></div>
+            <div class="LeafForward"></div>
+            <div class="LeafBackwards" style="bottom: 75px;"></div>
+        </div>
+    </div>
+
+    <p>Dollars: <a id="Money"></a></p>
+    <div class="MainGUI" id="MainGUI">
+        <section id="PlantOptions" class="PlantOptions" style="display: none;">
+
+            <h3>Plant</h3>
+
+            <button id="GrowPatato">Patato Buy: $5 Sell: $7</button>
+            <br>
+            <button id="GrowCarrot">Carrot Buy: $25 Sell: $35</button>
+
+        </section>
+    </div>
+
+
+    <div id="Farms" class="Farms">
+
+
+        <div id="Plot1" class="Plot">
+            <span>
+                <button onclick="GrowOptions(this.parentElement.parentElement.id, this)">Grow</button>
+                <button onclick="Upgrade(this.parentElement.parentElement.id)">Upgrade</button>
+            </span>
+            <div id="PlantContainer1" class="PlantContainer"></div>
+        </div>
+
+        <div id="Plot2" class="Plot">
+            <span>
+                <button onclick="GrowOptions(this.parentElement.parentElement.id, this)">Grow</button>
+                <button onclick="Upgrade(this.parentElement.parentElement.id)">Upgrade</button>
+            </span>
+            <div id="PlantContainer2" class="PlantContainer"></div>
+        </div>
+
+        <div id="Plot3" class="Plot">
+            <span>
+                <button onclick="GrowOptions(this.parentElement.parentElement.id, this)">Grow</button>
+                <button onclick="Upgrade(this.parentElement.parentElement.id)">Upgrade</button>
+            </span>
+            <div id="PlantContainer3" class="PlantContainer"></div>
+        </div>
+
+        <div id="Plot4" class="Plot">
+            <span>
+                <button onclick="GrowOptions(this.parentElement.parentElement.id, this)">Grow</button>
+                <button onclick="Upgrade(this.parentElement.parentElement.id)">Upgrade</button>
+            </span>
+            <div id="PlantContainer4" class="PlantContainer"></div>
+        </div>
+
+        <div id="Plot5" class="Plot">
+            <span>
+                <button onclick="GrowOptions(this.parentElement.parentElement.id, this)">Grow</button>
+                <button onclick="Upgrade(this.parentElement.parentElement.id)">Upgrade</button>
+            </span>
+            <div id="PlantContainer5" class="PlantContainer"></div>
+        </div>
+
+    </div>
+
+    <script>
+        const CopyablePatatoPlant = document.getElementById("CopyablePatatoPlant");
+        const CopyableCarrotPlant = document.getElementById("CopyableCarrotPlant");
+        var Dollars = 0;
+
+        let PlotData = [];
+
+        function AddPlotToData(ID) {
+            let DataString = ID.toString() + " 1 false none"; // id, how many plants can grow on that tile, if something is growing on it, type of crop growing // 
+            PlotData.push(DataString);
+        }
+
+        const Farms = document.getElementById("Farms");
+        if (Farms) {
+            const Farms2 = Farms.children;
+            for (let i = 0; i < Farms2.length; i++) {
+                const Farm = Farms2[i];
+                AddPlotToData(Farm.id);
+            }
+        } else { }
+
+        function Upgrade(Plot) {
+            let PlotNumInList = Number(Plot.replace("Plot", "")) - 1;
+            let PlotInfo = PlotData[PlotNumInList].split(" ");
+
+            let PlantCounter = Number(PlotInfo[1]);
+            PlantCounter += 1;
+
+            PlotInfo[1] = PlantCounter;
+
+            let ReturningString = PlotInfo[0] + " " + PlotInfo[1] + " " + PlotInfo[2] + PlotInfo[3];
+            PlotData[PlotNumInList] = ReturningString;
+        }
+
+
+        function GrowOptions(Plot, button) {
+            let PlotNumInList = Number(Plot.replace("Plot", "")) - 1;
+            let PlotInfo = PlotData[PlotNumInList].split(" ");
+            if (PlotInfo[2] == "sell") {
+                Grow(Plot, button)
+                return
+            } else if (PlotInfo[2] == "false") {
+                const OptionUI = document.getElementById("PlantOptions");
+                OptionUI.style.display = "block";
+
+                let SendPlot = Plot
+                let SendButton = button
+
+                document.getElementById("GrowPatato").onclick = function () {
+                    Grow(SendPlot, SendButton, "Patato")
+                }
+                document.getElementById("GrowCarrot").onclick = function () {
+                    Grow(SendPlot, SendButton, "Carrot")
+                }
+            }
+        }
+
+
+        function Grow(Plot, Button, Plant) {
+
+            const OptionUI = document.getElementById("PlantOptions");
+            OptionUI.style.display = "none";
+
+            let PlotNumInList = Number(Plot.replace("Plot", "")) - 1;
+            let PlotInfo = PlotData[PlotNumInList].split(" ");
+            let PlantContainer = document.getElementById("PlantContainer" + (PlotNumInList + 1));
+
+            if (PlotInfo[2] === "false") {
+                PlotInfo[2] = "true";
+                PlotData[PlotNumInList] = `${PlotInfo[0]} ${PlotInfo[1]} ${PlotInfo[2]} ${PlotInfo[3]}`;
+
+                for (let i = 0; i < PlotInfo[1]; i++) {
+                    let NewPatato = 0;
+                    if (Plant == "Patato") {
+                        NewPatato = CopyablePatatoPlant.cloneNode(true);
+                        PlotInfo[3] = "Patato";
+                    }
+                    if (Plant == "Carrot") {
+                        NewPatato = CopyableCarrotPlant.cloneNode(true);
+                        PlotInfo[3] = "Carrot";
+                    }
+
+                    NewPatato.style.display = "block";
+                    PlantContainer.appendChild(NewPatato);
+
+                    const children = NewPatato.children;
+                    for (let j = 0; j < children.length; j++) {
+                        setTimeout(() => {
+                            children[j].style.visibility = "visible";
+
+                            if (j == (children.length - 1)) {
+                                Button.innerHTML = "Sell";
+
+                                PlotInfo[2] = PlotInfo[2].replace("true", "sell");
+
+                                let ReturningString = PlotInfo[0] + " " + PlotInfo[1] + " " + PlotInfo[2] + " " + PlotInfo[3];
+                                PlotData[PlotNumInList] = ReturningString;
+                            }
+                        }, j * 4000);
+                    }
+                }
+
+            } else if (PlotInfo[2] === "sell") {
+
+
+                const FarmPlot = document.getElementById("PlantContainer" + (PlotNumInList + 1));
+                const crops = Array.from(FarmPlot.children);
+
+                crops.forEach(crop => crop.remove());
+
+
+                PlotInfo[2] = PlotInfo[2].replace("sell", "false");
+                PlotInfo[3] = "none";
+
+                let ReturningString = PlotInfo[0] + " " + PlotInfo[1] + " " + PlotInfo[2] + PlotInfo[3];
+                PlotData[PlotNumInList] = ReturningString;
+                Button.innerHTML = "Grow";
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
