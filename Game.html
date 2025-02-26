@@ -5,9 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>HTML Template</title>
-    <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
 <style>
+    body {
+        background-color: green;
+    }
     .Plant {
         position: relative;
         flex: 1;
@@ -88,12 +90,13 @@
     }
 
     .Plot {
-        position: relative;
+        flex: 1 0 100px;
+        max-width: 160px;
+        /* Prevents them from growing too large */
         height: 160px;
-        width: 150px;
         background-color: rgb(75, 58, 48);
         border-bottom: rgb(101, 87, 84) 15px solid;
-        align-items: center;
+        text-align: center;
     }
 
     .PlantContainer {
@@ -109,12 +112,14 @@
 
     .Farms {
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
+        /* No wrapping */
         gap: 0px;
-        justify-content: flex-start;
-        padding: 10px;
-        box-sizing: border-box;
-        max-width: 100%;
+        /* Small gap between plots */
+        justify-content: left;
+        /* Aligns to the left */
+        width: 100%;
+        /* Ensures it takes up available space */
     }
 
     .PlantOptions {
@@ -133,13 +138,14 @@
         text-align: center;
     }
 
-    .PlantOptions h3 {
+    .MenuTitle {
         color: white;
         font-size: 60px;
         -webkit-text-stroke: 2px black;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    .PlantOptions button {
+    .PlantOptionsButton {
         background-color: crimson;
         border: 15px solid brown;
         border-radius: 25px;
@@ -150,7 +156,7 @@
         transition: ease 500ms;
     }
 
-    .PlantOptions button:hover {
+    .PlantOptionsButton:hover {
         background-color: rgb(226, 72, 103);
         border: 15px solid rgb(235, 32, 32);
         border-radius: 25px;
@@ -175,6 +181,47 @@
         z-index: 1;
         border-left: rgb(209, 124, 33) solid 5px;
         box-shadow: 2px 2px;
+    }
+
+    .WorkerBot {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        background-color: black;
+        height: 100px;
+        width: 100px;
+        transition: left 0.5s, top 0.5s;
+    }
+    .ExitButton {
+        position: fixed;
+        right: -25px;
+        top: -25px;
+        height: 100px;
+        width: 100px;
+        border-radius: 50px;
+        border: solid brown 15px;
+        background-color: crimson;
+        color: white;
+        font-family: cursive;
+        font-size: 50px;
+        transition: ease 500ms;
+    }
+    .ExitButton:hover {
+        background-color: rgb(226, 72, 103);
+        border: 15px solid rgb(235, 32, 32);
+        border-radius: 25px;
+    }
+    .UpgradeConfirmation {
+        display: block;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        height: 500px;
+        width: 400px;
+        background-color: white;
+        border-radius: 50px;
+        box-shadow: 2px 2px black;
     }
 </style>
 
@@ -214,13 +261,19 @@
     <p>Dollars: <a id="Money"></a></p>
     <div class="MainGUI" id="MainGUI">
         <section id="PlantOptions" class="PlantOptions" style="display: none;">
+            <button id="ExitButton" class="ExitButton">X</button>
 
-            <h3>Plant</h3>
+            <h3 class="MenuTitle">Plant</h3>
 
-            <button id="GrowPatato">Patato Buy: $5 Sell: $7</button>
+            <button class="PlantOptionsButton" id="GrowPatato">Patato Buy: $5 Sell: $7</button>
             <br>
-            <button id="GrowCarrot">Carrot Buy: $25 Sell: $35</button>
+            <button class="PlantOptionsButton" id="GrowCarrot">Carrot Buy: $25 Sell: $35</button>
 
+        </section>
+        <section class="UpgradeConfirmation">
+            <button id="ExitButton" class="ExitButton">X</button>
+            <h3 class="MenuTitle">Upgrade</h3>
+            <button class="PlantOptionsButton">Upgrade $<a id="RequestedUpgradePrice"></a></button>
         </section>
     </div>
 
@@ -268,9 +321,47 @@
             <div id="PlantContainer5" class="PlantContainer"></div>
         </div>
 
+        <div class="WorkerBot" id="WorkerBot"></div>
     </div>
 
     <script>
+
+        const workerBot = document.getElementById("WorkerBot");
+        let workerQueue = []
+        document.addEventListener("click", (event) => {
+            if (event.target.tagName.toLowerCase() === "button") { return }
+            var PosX = event.clientX;
+            var PosY = event.clientY;
+            PosX -= 50; /* Gets the middle of the Worker */
+            PosY -= 50
+            workerBot.style.left = PosX + "px";
+            workerBot.style.top = PosY + "px";
+        });
+
+        function queueWorkerTask(plot, task) {
+            workerQueue.push({ plot, task });
+            if (workerQueue.length === 1) processWorkerTasks();
+        }
+
+        function processWorkerTasks() {
+            if (workerQueue.length === 0) return;
+            const { plot, task } = workerQueue.shift();
+            moveWorkerTo(plot, () => {
+                setTimeout(processWorkerTasks, 1000);
+            });
+        }
+
+        function moveWorkerTo(plot, callback) {
+            const PlotRect = document.getElementById(plot);
+            workerBot.style.transition = "left 0.5s, top 0.5s";
+            const rect = PlotRect.getBoundingClientRect();
+            workerBot.style.left = `${rect.left}px`;
+            workerBot.style.top = `${rect.top}px`;
+            setTimeout(callback, 500);
+        }
+
+
+
         const CopyablePatatoPlant = document.getElementById("CopyablePatatoPlant");
         const CopyableCarrotPlant = document.getElementById("CopyableCarrotPlant");
         var Dollars = 0;
@@ -300,7 +391,7 @@
 
             PlotInfo[1] = PlantCounter;
 
-            let ReturningString = PlotInfo[0] + " " + PlotInfo[1] + " " + PlotInfo[2] + PlotInfo[3];
+            let ReturningString = PlotInfo[0] + " " + PlotInfo[1] + " " + PlotInfo[2] + " " + PlotInfo[3];
             PlotData[PlotNumInList] = ReturningString;
         }
 
@@ -310,6 +401,7 @@
             let PlotInfo = PlotData[PlotNumInList].split(" ");
             if (PlotInfo[2] == "sell") {
                 Grow(Plot, button)
+                queueWorkerTask(Plot, "grow");
                 return
             } else if (PlotInfo[2] == "false") {
                 const OptionUI = document.getElementById("PlantOptions");
@@ -320,9 +412,15 @@
 
                 document.getElementById("GrowPatato").onclick = function () {
                     Grow(SendPlot, SendButton, "Patato")
+                    queueWorkerTask(Plot, "grow");
                 }
                 document.getElementById("GrowCarrot").onclick = function () {
                     Grow(SendPlot, SendButton, "Carrot")
+                    queueWorkerTask(Plot, "grow");
+                }
+                document.getElementById("ExitButton").onclick = function () {
+                    const OptionUI = document.getElementById("PlantOptions");
+                    OptionUI.style.display = "none";
                 }
             }
         }
@@ -384,7 +482,7 @@
                 PlotInfo[2] = PlotInfo[2].replace("sell", "false");
                 PlotInfo[3] = "none";
 
-                let ReturningString = PlotInfo[0] + " " + PlotInfo[1] + " " + PlotInfo[2] + PlotInfo[3];
+                let ReturningString = PlotInfo[0] + " " + PlotInfo[1] + " " + PlotInfo[2] + " " + PlotInfo[3];
                 PlotData[PlotNumInList] = ReturningString;
                 Button.innerHTML = "Grow";
             }
