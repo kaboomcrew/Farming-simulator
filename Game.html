@@ -212,7 +212,7 @@
         border-radius: 25px;
     }
     .UpgradeConfirmation {
-        display: block;
+        display: none;
         position: absolute;
         left: 50%;
         top: 50%;
@@ -270,10 +270,12 @@
             <button class="PlantOptionsButton" id="GrowCarrot">Carrot Buy: $25 Sell: $35</button>
 
         </section>
-        <section class="UpgradeConfirmation">
+        <section id="UpgradeConfirmation" class="UpgradeConfirmation">
             <button id="ExitButton" class="ExitButton">X</button>
-            <h3 class="MenuTitle">Upgrade</h3>
-            <button class="PlantOptionsButton">Upgrade $<a id="RequestedUpgradePrice"></a></button>
+            <div style="position: fixed; left: 50%; transform: translate(-50%);">
+                <h3 class="MenuTitle">Upgrade</h3>
+                <button id="UpgradeButton" class="PlantOptionsButton">Upgrade $<a id="RequestedUpgradePrice"></a></button>
+            </div>
         </section>
     </div>
 
@@ -284,7 +286,7 @@
         <div id="Plot1" class="Plot">
             <span>
                 <button onclick="GrowOptions(this.parentElement.parentElement.id, this)">Grow</button>
-                <button onclick="Upgrade(this.parentElement.parentElement.id)">Upgrade</button>
+                <button onclick="OpenUpgradeUI(this.parentElement.parentElement.id)">Upgrade</button>
             </span>
             <div id="PlantContainer1" class="PlantContainer"></div>
         </div>
@@ -292,7 +294,7 @@
         <div id="Plot2" class="Plot">
             <span>
                 <button onclick="GrowOptions(this.parentElement.parentElement.id, this)">Grow</button>
-                <button onclick="Upgrade(this.parentElement.parentElement.id)">Upgrade</button>
+                <button onclick="OpenUpgradeUI(this.parentElement.parentElement.id)">Upgrade</button>
             </span>
             <div id="PlantContainer2" class="PlantContainer"></div>
         </div>
@@ -300,7 +302,7 @@
         <div id="Plot3" class="Plot">
             <span>
                 <button onclick="GrowOptions(this.parentElement.parentElement.id, this)">Grow</button>
-                <button onclick="Upgrade(this.parentElement.parentElement.id)">Upgrade</button>
+                <button onclick="OpenUpgradeUI(this.parentElement.parentElement.id)">Upgrade</button>
             </span>
             <div id="PlantContainer3" class="PlantContainer"></div>
         </div>
@@ -308,7 +310,7 @@
         <div id="Plot4" class="Plot">
             <span>
                 <button onclick="GrowOptions(this.parentElement.parentElement.id, this)">Grow</button>
-                <button onclick="Upgrade(this.parentElement.parentElement.id)">Upgrade</button>
+                <button onclick="OpenUpgradeUI(this.parentElement.parentElement.id)">Upgrade</button>
             </span>
             <div id="PlantContainer4" class="PlantContainer"></div>
         </div>
@@ -316,7 +318,7 @@
         <div id="Plot5" class="Plot">
             <span>
                 <button onclick="GrowOptions(this.parentElement.parentElement.id, this)">Grow</button>
-                <button onclick="Upgrade(this.parentElement.parentElement.id)">Upgrade</button>
+                <button onclick="OpenUpgradeUI(this.parentElement.parentElement.id)">Upgrade</button>
             </span>
             <div id="PlantContainer5" class="PlantContainer"></div>
         </div>
@@ -325,6 +327,17 @@
     </div>
 
     <script>
+
+        function OpenUpgradeUI(plot) {
+            const UpgradeUI = document.getElementById("UpgradeConfirmation");
+            UpgradeUI.style.display = "block";
+
+            document.getElementById("UpgradeButton").onclick = function()  {
+                Upgrade(plot)
+                UpgradeUI.style.display = "none";
+            }
+            
+        }
 
         const workerBot = document.getElementById("WorkerBot");
         let workerQueue = []
