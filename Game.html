@@ -4,12 +4,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>HTML Template</title>
+    <title>Farming Simulator</title>
 </head>
 <style>
     body {
         background-color: green;
+        overflow: hidden;
     }
+
     .Plant {
         position: relative;
         flex: 1;
@@ -93,10 +95,13 @@
         flex: 1 0 100px;
         max-width: 160px;
         /* Prevents them from growing too large */
-        height: 160px;
-        background-color: rgb(75, 58, 48);
-        border-bottom: rgb(101, 87, 84) 15px solid;
+        height: 170px;
+        background: rgb(77, 60, 39);
+        background: linear-gradient(357deg, rgba(56, 43, 25, 1) 0%, rgba(55, 38, 14, 1) 100%);
         text-align: center;
+        border: 5px rgb(65, 29, 2) solid;
+        border-radius: 25px;
+        border-bottom: rgb(87, 66, 61) 15px solid;
     }
 
     .PlantContainer {
@@ -113,13 +118,9 @@
     .Farms {
         display: flex;
         flex-wrap: nowrap;
-        /* No wrapping */
-        gap: 0px;
-        /* Small gap between plots */
+        gap: 10px;
         justify-content: left;
-        /* Aligns to the left */
         width: 100%;
-        /* Ensures it takes up available space */
     }
 
     .PlantOptions {
@@ -136,6 +137,7 @@
         z-index: 1;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         text-align: center;
+        z-index: 2;
     }
 
     .MenuTitle {
@@ -143,6 +145,7 @@
         font-size: 60px;
         -webkit-text-stroke: 2px black;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        z-index: 3;
     }
 
     .PlantOptionsButton {
@@ -154,6 +157,7 @@
         color: white;
         font-size: 20px;
         transition: ease 500ms;
+        z-index: 3;
     }
 
     .PlantOptionsButton:hover {
@@ -183,15 +187,7 @@
         box-shadow: 2px 2px;
     }
 
-    .WorkerBot {
-        position: fixed;
-        top: 0px;
-        left: 0px;
-        background-color: black;
-        height: 100px;
-        width: 100px;
-        transition: left 0.5s, top 0.5s;
-    }
+
     .ExitButton {
         position: fixed;
         right: -25px;
@@ -205,12 +201,15 @@
         font-family: cursive;
         font-size: 50px;
         transition: ease 500ms;
+        z-index: 4;
     }
+
     .ExitButton:hover {
         background-color: rgb(226, 72, 103);
         border: 15px solid rgb(235, 32, 32);
         border-radius: 25px;
     }
+
     .UpgradeConfirmation {
         display: none;
         position: absolute;
@@ -221,12 +220,403 @@
         width: 400px;
         background-color: white;
         border-radius: 50px;
+        z-index: 1;
         box-shadow: 2px 2px black;
+    }
+
+    .PlotButton {
+        background: rgb(77, 60, 39);
+        background: linear-gradient(357deg, rgb(88, 81, 72) 0%, rgba(55, 38, 14, 1) 100%);
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        border: 2px rgb(252, 252, 252) solid;
+        border-radius: 20px;
+        height: 40px;
+        width: 75px;
+        color: rgb(255, 255, 255);
+        transition: 300ms ease;
+    }
+
+    .PlotButton:hover {
+        border: 5px rgb(255, 196, 196) solid;
+    }
+
+    .Path1 {
+        height: 100px;
+        width: 90%;
+        background-color: rgb(112, 91, 60);
+    }
+
+    .NewFarm {
+        height: 170px;
+        width: 160px;
+        background: linear-gradient(357deg, rgba(56, 43, 25, 1) 0%, rgba(55, 38, 14, 1) 100%);
+        border: 5px rgb(65, 29, 2) solid;
+        text-align: center;
+        line-height: 0px;
+        border-radius: 25px;
+        color: white;
+        font-family: cursive;
+        font-size: 200px;
+    }
+
+    .Roof1 {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 160px;
+        width: 150px;
+        background-color: rgb(70, 60, 46);
+        border-top: 5px solid black;
+        border-left: 5px solid black;
+        border-top-left-radius: 25px;
+    }
+
+    .Roof2 {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        height: 150px;
+        width: 150px;
+        background-color: rgb(55, 46, 32);
+        border-bottom: 5px solid black;
+        border-top: 10px solid black;
+        border-left: 5px solid black;
+        border-bottom-left-radius: 25px;
+    }
+
+    .House {
+        position: absolute;
+        height: 310px;
+        width: 210px;
+        top: 100px;
+        right: 0;
+    }
+
+    .Porch {
+        height: 100px;
+        width: 50px;
+        background-color: rgb(55, 46, 32);
+        position: absolute;
+        left: 0;
+        bottom: 25px;
+        border: 5px solid black;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+
+    .EnterHouseButton {
+        position: absolute;
+        height: 50px;
+        width: 100px;
+        left: -100px;
+        bottom: 50px;
+        border: solid brown 5px;
+        background-color: crimson;
+        border-radius: 5px;
+        font-size: 17px;
+        color: white;
+        transition: ease 500ms;
+    }
+
+    .EnterHouseButton:hover {
+        color: white;
+        border: crimson solid 1px;
+        background-color: brown;
+    }
+
+    .HouseBackground {
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgb(70, 60, 46);
+        z-index: 100;
+    }
+
+    .HouseInside {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        height: 75vh;
+        width: 80%;
+        z-index: 101;
+        background-color: rgb(89, 81, 70);
+        border-radius: 50px;
+        font-family: cursive;
+    }
+
+    .LeaveHouseButton {
+        height: 150px;
+        width: 300px;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        z-index: 102;
+        background-color: rgb(70, 60, 46);
+        border: rgb(77, 68, 55) solid 10px;
+        border-top-left-radius: 100px;
+        color: white;
+        font-family: cursive;
+        font-size: 40px;
+        transition: ease 500ms;
+    }
+
+    .LeaveHouseButton:hover {
+        border: rgb(255, 255, 255) solid 10px;
+    }
+
+    .Computer {
+        width: 300px;
+        height: 100px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgb(114, 93, 70);
+    }
+
+    .Moniter {
+        width: 100px;
+        height: 30px;
+        background-color: black;
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .Keyboard {
+        width: 80px;
+        height: 30px;
+        position: absolute;
+        left: 90px;
+        bottom: 10px;
+        background-color: rgb(200, 177, 151);
+    }
+
+    .Mouse {
+        height: 30px;
+        width: 20px;
+        background-color: rgb(200, 177, 151);
+        position: absolute;
+        left: 180px;
+        bottom: 10px;
+    }
+
+    .ComputerScreen {
+        width: 700px;
+        height: 400px;
+        background-color: white;
+        z-index: 103;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        border: 25px solid black;
+        border-radius: 50px;
+    }
+
+    .SellAppIcon {
+        width: 75px;
+        height: 75px;
+        background-color: greenyellow;
+        z-index: 104;
+        position: absolute;
+        top: 70px;
+        left: 40px;
+        font-size: 50px;
+        color: white;
+        text-align: center;
+        border-radius: 25px;
+        cursor: pointer;
+    }
+
+    .SellAppIconRIGHT {
+        width: 75px;
+        height: 75px;
+        background-color: greenyellow;
+        z-index: 104;
+        position: absolute;
+        top: 70px;
+        right: 40px;
+        font-size: 50px;
+        color: white;
+        text-align: center;
+        border-radius: 25px;
+        cursor: pointer;
+    }
+
+    .TopBar {
+        height: 50px;
+        width: 100%;
+        background-color: rgba(128, 128, 128, 0.296);
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    .Date {
+        font-family: cursive;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .LIT {
+        height: 600px;
+        width: 300px;
+        position: absolute;
+        top: 200px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .ListedItem {
+        height: auto;
+        width: auto;
+    }
+
+    .SACB {
+        height: 50px;
+        width: 150px;
+        font-family: cursive;
+    }
+
+    .TopBarMoney {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 10px;
+        color: green;
+    }
+
+    .Money {
+        font-family: cursive;
+        color: white;
+        font-size: 25px;
+        position: absolute;
+        top: 5px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .UseComputerButton {
+        height: 50px;
+        width: 150px;
+        background-color: rgb(70, 60, 46);
+        border: rgb(255, 255, 255) solid 5px;
+        font-family: cursive;
+        color: white;
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 10px;
+        transition: ease 1s;
+    }
+
+    .UseComputerButton:hover {
+        border: rgb(94, 79, 58) solid 5px;
+    }
+
+    .Bed {
+        height: 200px;
+        width: 500px;
+        background-color: rgb(192, 67, 67);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        border-top: rgb(114, 93, 70) solid 10px;
+        border-right: rgb(114, 93, 70) solid 10px;
+    }
+
+    .TopBed {
+        width: 100px;
+        height: 200px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background-color: white;
+        border-top: rgb(114, 93, 70) solid 10px;
+    }
+    .ScrollingFrame {
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+        height: 350px;
+        width: 300px;
+        overflow-y: auto;
+    }
+    .Lettuce {
+        height: 30px;
+        width: 30px;
+        background-color: rgb(127, 157, 75);
+        border-top-right-radius: 20px;
+        border-top-left-radius: 20px;
+        border-right: 12px solid green;
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1;
     }
 </style>
 
 <body>
-    <p id="OutputText">Hi</p>
+
+    <div class="HouseBackground" style="display: none;" id="HB">
+        <button class="UseComputerButton" onclick="UseComputer()">Toggle Computer</button>
+        <div class="HouseInside">
+            <div class="Computer">
+                <div class="Moniter"></div>
+                <div class="Keyboard"></div>
+                <div class="Mouse"></div>
+            </div>
+
+            <div class="Bed">
+                <div class="TopBed"></div>
+            </div>
+
+            <div style="display: none;" id="ComputerScreen" class="ComputerScreen">
+                <div class="TopBar">
+                    <div id="Date" class="Date">Date</div>
+                    <p class="TopBarMoney"><a id="Money2"></a>$</p>
+                </div>
+                <div class="Homescreen">
+                    <div class="SellAppIcon">$</div>
+                    <div class="SellAppIconRIGHT">$</div>
+                </div>
+                <div id="SellApp" class="SellApp">
+                    <h3 style="position: absolute; left: 50%; transform: translateX(-50%);" class="MenuTitle">Sell Crops
+                    </h3>
+                    <div style="display: none;" class="ListedItem" id="ListedItem">
+                        <a>Item</a>
+                    </div>
+                    <div id="LIT" class="LIT"></div>
+                    <button style="z-index: 200; position: absolute; bottom: 10px; left: 300px;" class="SACB"
+                        onclick="Sell()">Sell All Crops</button>
+                </div>
+            </div>
+
+        </div>
+        <button class="LeaveHouseButton" onclick="LeaveHouse()" id="LHB">Leave House</button>
+    </div>
+
+
+    <div class="House">
+        <div class="Roof1"></div>
+        <div class="Roof2"></div>
+        <div class="Porch"></div>
+
+        <button class="EnterHouseButton" onclick="EnterHouse()" id="EHB">Enter House</button>
+    </div>
+
     <div id="Container"></div>
 
     <div class="Plant" style="display: none;" id="CopyablePatatoPlant">
@@ -257,25 +647,63 @@
             <div class="LeafBackwards" style="bottom: 75px;"></div>
         </div>
     </div>
+    <div class="Plant" style="display: none;" id="CopyableLettucePlant">
+        <div class="PPLVL1" style="visibility: hidden;">
+            <div class="PPStem1"></div>
+        </div>
+        <div class="PPLVL2" style="visibility: hidden;">
+            <div class="PPStem1" style="height: 50px;"></div>
+        </div>
+        <div class="PPLVL3" style="visibility: hidden;">
+            <div class="Lettuce"></div>
+            <div class="PPStem1" style="height: 150px;"></div>
+            <div class="LeafForward"></div>
+            <div class="LeafBackwards" style="bottom: 75px;"></div>
+        </div>
+    </div>
+    <div style="display: none;" id="CopyableFarm" class="Plot">
+        <span>
+            <button class="PlotButton" onclick="GrowOptions(this.parentElement.parentElement.id, this)">Grow</button>
+            <button class="PlotButton" onclick="OpenUpgradeUI(this.parentElement.parentElement.id)">Upgrade</button>
+        </span>
+        <div id="CopyableFarmContainer" class="PlantContainer"></div>
+    </div>
 
-    <p>Dollars: <a id="Money"></a></p>
+    <p class="Money"><a id="Money"></a>$</p>
+    <br> <br> <br> <br>
+
+
     <div class="MainGUI" id="MainGUI">
         <section id="PlantOptions" class="PlantOptions" style="display: none;">
             <button id="ExitButton" class="ExitButton">X</button>
 
             <h3 class="MenuTitle">Plant</h3>
 
-            <button class="PlantOptionsButton" id="GrowPatato">Patato Buy: $5 Sell: $7</button>
-            <br>
-            <button class="PlantOptionsButton" id="GrowCarrot">Carrot Buy: $25 Sell: $35</button>
+            <div class="ScrollingFrame">
+                <button class="PlantOptionsButton" id="GrowPatato">Patato Buy: $<a id="PatatoPrice">5</a></button>
+                <br>
+                <button class="PlantOptionsButton" id="GrowCarrot">Carrot Buy: $<a id="CarrotPrice">25</a></button>
+                <br>
+                <button class="PlantOptionsButton" id="GrowLettuce">Lettuce Buy: $<a id="LettucePrice">100</a></button>
+            </div>
 
         </section>
         <section id="UpgradeConfirmation" class="UpgradeConfirmation">
-            <button id="ExitButton" class="ExitButton">X</button>
+            <button id="ExitButton2" class="ExitButton">X</button>
             <div style="position: fixed; left: 50%; transform: translate(-50%);">
                 <h3 class="MenuTitle">Upgrade</h3>
-                <button id="UpgradeButton" class="PlantOptionsButton">Upgrade $<a id="RequestedUpgradePrice"></a></button>
+                <button id="UpgradeButton" class="PlantOptionsButton">Upgrade $<a
+                        id="RequestedUpgradePrice"></a></button>
             </div>
+        </section>
+        <section class="UpgradeConfirmation" id="NewPlotConFirmation"
+            style="display: none; text-align: center; height: 350px;">
+            <button id="ExitButton3" class="ExitButton">X</button>
+
+            <h3 class="MenuTitle">Buy Plot</h3>
+            <br> <br>
+            <button id="NewPlotConFirmationButton" class="PlantOptionsButton">Buy New Plot $<a
+                    id="NewPlotPrice"></a></button>
         </section>
     </div>
 
@@ -285,101 +713,180 @@
 
         <div id="Plot1" class="Plot">
             <span>
-                <button onclick="GrowOptions(this.parentElement.parentElement.id, this)">Grow</button>
-                <button onclick="OpenUpgradeUI(this.parentElement.parentElement.id)">Upgrade</button>
+                <button class="PlotButton"
+                    onclick="GrowOptions(this.parentElement.parentElement.id, this)">Grow</button>
+                <button class="PlotButton" onclick="OpenUpgradeUI(this.parentElement.parentElement.id)">Upgrade</button>
             </span>
             <div id="PlantContainer1" class="PlantContainer"></div>
         </div>
 
         <div id="Plot2" class="Plot">
             <span>
-                <button onclick="GrowOptions(this.parentElement.parentElement.id, this)">Grow</button>
-                <button onclick="OpenUpgradeUI(this.parentElement.parentElement.id)">Upgrade</button>
+                <button class="PlotButton"
+                    onclick="GrowOptions(this.parentElement.parentElement.id, this)">Grow</button>
+                <button class="PlotButton" onclick="OpenUpgradeUI(this.parentElement.parentElement.id)">Upgrade</button>
             </span>
             <div id="PlantContainer2" class="PlantContainer"></div>
         </div>
 
         <div id="Plot3" class="Plot">
             <span>
-                <button onclick="GrowOptions(this.parentElement.parentElement.id, this)">Grow</button>
-                <button onclick="OpenUpgradeUI(this.parentElement.parentElement.id)">Upgrade</button>
+                <button class="PlotButton"
+                    onclick="GrowOptions(this.parentElement.parentElement.id, this)">Grow</button>
+                <button class="PlotButton" onclick="OpenUpgradeUI(this.parentElement.parentElement.id)">Upgrade</button>
             </span>
             <div id="PlantContainer3" class="PlantContainer"></div>
         </div>
 
         <div id="Plot4" class="Plot">
             <span>
-                <button onclick="GrowOptions(this.parentElement.parentElement.id, this)">Grow</button>
-                <button onclick="OpenUpgradeUI(this.parentElement.parentElement.id)">Upgrade</button>
+                <button class="PlotButton"
+                    onclick="GrowOptions(this.parentElement.parentElement.id, this)">Grow</button>
+                <button class="PlotButton" onclick="OpenUpgradeUI(this.parentElement.parentElement.id)">Upgrade</button>
             </span>
             <div id="PlantContainer4" class="PlantContainer"></div>
         </div>
 
         <div id="Plot5" class="Plot">
             <span>
-                <button onclick="GrowOptions(this.parentElement.parentElement.id, this)">Grow</button>
-                <button onclick="OpenUpgradeUI(this.parentElement.parentElement.id)">Upgrade</button>
+                <button class="PlotButton"
+                    onclick="GrowOptions(this.parentElement.parentElement.id, this)">Grow</button>
+                <button class="PlotButton" onclick="OpenUpgradeUI(this.parentElement.parentElement.id)">Upgrade</button>
             </span>
             <div id="PlantContainer5" class="PlantContainer"></div>
         </div>
-
-        <div class="WorkerBot" id="WorkerBot"></div>
     </div>
 
+    <br>
+    <div class="Path1"></div>
+    <br>
+    <div class="Farms" id="Farms2">
+        <button class="NewFarm" id="CreateFarmButton" onclick="OpenPlotCreationUI()">+</button>
+
+
+    </div>
+
+
     <script>
+        let IsOn = false;
+        function UseComputer() {
+            if (!IsOn) {
+                document.getElementById("ComputerScreen").style.display = "block";
+                IsOn = true;
+            } else if (IsOn) {
+                document.getElementById("ComputerScreen").style.display = "none";
+                IsOn = false;
+            }
+        }
+
+        var Dollars = 1000; /* Starting Price 25 */
+
+        function UpdateMoney() {
+            document.getElementById("Money").innerHTML = Dollars;
+            document.getElementById("Money2").innerHTML = Dollars;
+        }
+        setInterval(() => {
+            UpdateMoney()
+        }, 500);
+
+        function EnterHouse() {
+            document.getElementById("HB").style.display = "block";
+        }
+        function LeaveHouse() {
+            document.getElementById("HB").style.display = "none";
+        }
+
+        let PlotData = [];
+
+        var Date = new Date();
+        var Year = Date.getFullYear();
+        let Months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+        let Month = Date.getMonth();
+        let Day = Date.getDate();
+        let WeekDays = ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"];
+        let Weekday = Date.getDay();
+        let FullDate = WeekDays[Weekday] + " " + (Day) + " " + Months[Month] + " " + (Year);
+
+        document.getElementById("Date").innerHTML = FullDate
+
+
+        var CurrentFarms = 5;
+        var CreateFarmPrice = 1000;
+
+        function CreateFarm() {
+            const CopyableFarm = document.getElementById("CopyableFarm");
+
+            if (Dollars >= CreateFarmPrice) {
+                Dollars -= CreateFarmPrice;
+                CreateFarmPrice += 1000;
+
+                CurrentFarms += 1;
+                const NewFarm = CopyableFarm.cloneNode(true);
+                NewFarm.style.display = "Block";
+                document.getElementById("Farms2").appendChild(NewFarm);
+                let NewID = "Plot" + CurrentFarms;
+                NewFarm.id = NewID;
+                for (let i = 0; i < NewFarm.children.length; i++) {
+                    if (i == 1) {
+                        NewFarm.children[i].id = "PlantContainer" + CurrentFarms;
+                    }
+                }
+                AddPlotToData(NewID)
+                document.getElementById("Farms2").appendChild(document.getElementById("CreateFarmButton"));
+                if (CurrentFarms == 10) {
+                    document.getElementById("CreateFarmButton").style.display = "none";
+                }
+            }
+
+        }
+
 
         function OpenUpgradeUI(plot) {
             const UpgradeUI = document.getElementById("UpgradeConfirmation");
             UpgradeUI.style.display = "block";
 
-            document.getElementById("UpgradeButton").onclick = function()  {
-                Upgrade(plot)
+            let PlotNumInList = Number(plot.replace("Plot", "")) - 1;
+            let PlotInfo = PlotData[PlotNumInList].split(" ");
+
+            let PlantCounter = Number(PlotInfo[1]);
+
+            var IncreasedPriceNum = 50;
+            var UpgradePrice = IncreasedPriceNum * PlantCounter;
+
+            document.getElementById("RequestedUpgradePrice").innerHTML = UpgradePrice;
+
+            document.getElementById("UpgradeButton").onclick = function () {
+
+                if (Dollars >= UpgradePrice) {
+                    Dollars -= UpgradePrice
+                    Upgrade(plot)
+                    UpgradeUI.style.display = "none";
+                }
+            }
+            document.getElementById("ExitButton2").onclick = function () {
                 UpgradeUI.style.display = "none";
             }
-            
+
         }
 
-        const workerBot = document.getElementById("WorkerBot");
-        let workerQueue = []
-        document.addEventListener("click", (event) => {
-            if (event.target.tagName.toLowerCase() === "button") { return }
-            var PosX = event.clientX;
-            var PosY = event.clientY;
-            PosX -= 50; /* Gets the middle of the Worker */
-            PosY -= 50
-            workerBot.style.left = PosX + "px";
-            workerBot.style.top = PosY + "px";
-        });
+        function OpenPlotCreationUI() {
+            const UI = document.getElementById("NewPlotConFirmation");
+            UI.style.display = "block";
 
-        function queueWorkerTask(plot, task) {
-            workerQueue.push({ plot, task });
-            if (workerQueue.length === 1) processWorkerTasks();
+            document.getElementById("NewPlotPrice").innerHTML = CreateFarmPrice;
+
+            document.getElementById("ExitButton3").onclick = function () {
+                UI.style.display = "none";
+            }
+            document.getElementById("NewPlotConFirmationButton").onclick = function () {
+                UI.style.display = "none";
+                CreateFarm()
+            }
         }
-
-        function processWorkerTasks() {
-            if (workerQueue.length === 0) return;
-            const { plot, task } = workerQueue.shift();
-            moveWorkerTo(plot, () => {
-                setTimeout(processWorkerTasks, 1000);
-            });
-        }
-
-        function moveWorkerTo(plot, callback) {
-            const PlotRect = document.getElementById(plot);
-            workerBot.style.transition = "left 0.5s, top 0.5s";
-            const rect = PlotRect.getBoundingClientRect();
-            workerBot.style.left = `${rect.left}px`;
-            workerBot.style.top = `${rect.top}px`;
-            setTimeout(callback, 500);
-        }
-
 
 
         const CopyablePatatoPlant = document.getElementById("CopyablePatatoPlant");
         const CopyableCarrotPlant = document.getElementById("CopyableCarrotPlant");
-        var Dollars = 0;
-
-        let PlotData = [];
 
         function AddPlotToData(ID) {
             let DataString = ID.toString() + " 1 false none"; // id, how many plants can grow on that tile, if something is growing on it, type of crop growing // 
@@ -408,28 +915,79 @@
             PlotData[PlotNumInList] = ReturningString;
         }
 
+        let Inventory = [];
+
+        function DisplayInventory() {
+            const ListedItemsContainer = document.getElementById("LIT")
+            ListedItemsContainer.innerHTML = "";
+
+            const LisedItemCloneable = document.getElementById("ListedItem");
+
+            const itemCounts = {};
+            for (let i = 0; i < Inventory.length; i++) {
+                const item = Inventory[i];
+                itemCounts[item] = (itemCounts[item] || 0) + 1;
+            }
+            for (const item in itemCounts) {
+                const NewItem = LisedItemCloneable.cloneNode(true);
+                NewItem.style.display = "block";
+                NewItem.children[0].innerHTML = `${item} x${itemCounts[item]}`;
+                ListedItemsContainer.appendChild(NewItem);
+            }
+        }
+
+        setInterval(() => {
+            DisplayInventory()
+        }, 100);
+
+        function Sell() {
+            for (var Item of Inventory) {
+                if (Item == "Patato") {
+                    Dollars += 15;
+                } else if (Item == "Carrot") {
+                    Dollars += 40;
+                } else if (Item == "Lettuce") {
+                    Dollars += 175
+                }
+            }
+            Inventory = []
+        }
+
 
         function GrowOptions(Plot, button) {
             let PlotNumInList = Number(Plot.replace("Plot", "")) - 1;
             let PlotInfo = PlotData[PlotNumInList].split(" ");
             if (PlotInfo[2] == "sell") {
                 Grow(Plot, button)
-                queueWorkerTask(Plot, "grow");
                 return
             } else if (PlotInfo[2] == "false") {
                 const OptionUI = document.getElementById("PlantOptions");
                 OptionUI.style.display = "block";
 
-                let SendPlot = Plot
-                let SendButton = button
+                let SendPlot = Plot;
+                let SendButton = button;
+
+                document.getElementById("PatatoPrice").innerHTML = 5 * Number(PlotInfo[1]);
+                document.getElementById("CarrotPrice").innerHTML = 25 * Number(PlotInfo[1]);
+                document.getElementById("LettucePrice").innerHTML = 100 * Number(PlotInfo[1]);
 
                 document.getElementById("GrowPatato").onclick = function () {
-                    Grow(SendPlot, SendButton, "Patato")
-                    queueWorkerTask(Plot, "grow");
+                    if (Dollars >= 5 * Number(PlotInfo[1])) {
+                        Dollars -= 5 * Number(PlotInfo[1]);
+                        Grow(SendPlot, SendButton, "Patato");
+                    }
                 }
                 document.getElementById("GrowCarrot").onclick = function () {
-                    Grow(SendPlot, SendButton, "Carrot")
-                    queueWorkerTask(Plot, "grow");
+                    if (Dollars >= 25 * Number(PlotInfo[1])) {
+                        Dollars -= 25 * Number(PlotInfo[1]);
+                        Grow(SendPlot, SendButton, "Carrot");
+                    }
+                }
+                document.getElementById("GrowLettuce").onclick = function () {
+                    if (Dollars >= 100 * Number(PlotInfo[1])) {
+                        Dollars -= 100 * Number(PlotInfo[1]);
+                        Grow(SendPlot, SendButton, "Lettuce")
+                    }
                 }
                 document.getElementById("ExitButton").onclick = function () {
                     const OptionUI = document.getElementById("PlantOptions");
@@ -462,6 +1020,10 @@
                         NewPatato = CopyableCarrotPlant.cloneNode(true);
                         PlotInfo[3] = "Carrot";
                     }
+                    if (Plant == "Lettuce") {
+                        NewPatato = document.getElementById("CopyableLettucePlant").cloneNode(true);
+                        PlotInfo[3] = "Lettuce";
+                    }
 
                     NewPatato.style.display = "block";
                     PlantContainer.appendChild(NewPatato);
@@ -472,7 +1034,7 @@
                             children[j].style.visibility = "visible";
 
                             if (j == (children.length - 1)) {
-                                Button.innerHTML = "Sell";
+                                Button.innerHTML = "Gather";
 
                                 PlotInfo[2] = PlotInfo[2].replace("true", "sell");
 
@@ -491,6 +1053,9 @@
 
                 crops.forEach(crop => crop.remove());
 
+                for (let i = 0; i < Number(PlotInfo[1]); i++) {
+                    Inventory.push(PlotInfo[3]);
+                }
 
                 PlotInfo[2] = PlotInfo[2].replace("sell", "false");
                 PlotInfo[3] = "none";
