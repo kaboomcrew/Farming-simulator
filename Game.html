@@ -9,7 +9,8 @@
 <style>
     body {
         background-color: green;
-        overflow: hidden;
+        background: radial-gradient(circle, rgba(0,128,0,1) 0%, rgba(24,131,24,1) 100%);
+    
     }
 
     .Plant {
@@ -244,6 +245,7 @@
         height: 100px;
         width: 90%;
         background-color: rgb(112, 91, 60);
+        border: rgb(86, 73, 53) solid 12px;
     }
 
     .NewFarm {
@@ -349,8 +351,8 @@
     }
 
     .LeaveHouseButton {
-        height: 150px;
-        width: 300px;
+        height: 120px;
+        width: 290px;
         position: absolute;
         bottom: 0;
         right: 0;
@@ -366,6 +368,8 @@
 
     .LeaveHouseButton:hover {
         border: rgb(255, 255, 255) solid 10px;
+        height: 150px;
+        width: 300px;
     }
 
     .Computer {
@@ -544,6 +548,7 @@
         background-color: white;
         border-top: rgb(114, 93, 70) solid 10px;
     }
+
     .ScrollingFrame {
         position: absolute;
         left: 50%;
@@ -553,6 +558,7 @@
         width: 300px;
         overflow-y: auto;
     }
+
     .Lettuce {
         height: 30px;
         width: 30px;
@@ -560,6 +566,33 @@
         border-top-right-radius: 20px;
         border-top-left-radius: 20px;
         border-right: 12px solid green;
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1;
+    }
+
+    .Tomato {
+        height: 15px;
+        width: 15px;
+        background-color: rgb(132, 28, 28);
+        border-radius: 7px;
+        border-right: 3px solid rgb(178, 81, 81);
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1;
+    }
+
+    .Turnip {
+        height: 30px;
+        width: 30px;
+        background-color: rgb(158, 146, 207);
+        border-top-right-radius: 20px;
+        border-top-left-radius: 20px;
+        border-right: 12px solid rgb(85, 0, 128);
         position: absolute;
         bottom: 0px;
         left: 50%;
@@ -597,10 +630,11 @@
                     </h3>
                     <div style="display: none;" class="ListedItem" id="ListedItem">
                         <a>Item</a>
+                        <button>Sell</button>
                     </div>
                     <div id="LIT" class="LIT"></div>
                     <button style="z-index: 200; position: absolute; bottom: 10px; left: 300px;" class="SACB"
-                        onclick="Sell()">Sell All Crops</button>
+                        onclick="SellAll()">Sell All Crops</button>
                 </div>
             </div>
 
@@ -618,6 +652,9 @@
     </div>
 
     <div id="Container"></div>
+
+
+
 
     <div class="Plant" style="display: none;" id="CopyablePatatoPlant">
         <div class="PPLVL1" style="visibility: hidden;">
@@ -661,6 +698,50 @@
             <div class="LeafBackwards" style="bottom: 75px;"></div>
         </div>
     </div>
+    <div class="Plant" style="display: none;" id="CopyableTomatoPlant">
+        <div class="PPLVL1" style="visibility: hidden;">
+            <div class="PPStem1"></div>
+        </div>
+        <div class="PPLVL2" style="visibility: hidden;">
+            <div class="PPStem1" style="height: 50px;"></div>
+        </div>
+        <div class="PPLVL3" style="visibility: hidden;">
+            <div class="PPStem1" style="height: 150px;"></div>
+            <div class="LeafForward">
+                <div class="Tomato"></div>
+            </div>
+            <div class="LeafBackwards" style="bottom: 75px;">
+                <div class="Tomato"></div>
+            </div>
+        </div>
+    </div>
+    <div class="Plant" style="display: none;" id="CopyableTurnipPlant">
+        <div class="PPLVL1" style="visibility: hidden;">
+            <div class="PPStem1"></div>
+        </div>
+        <div class="PPLVL2" style="visibility: hidden;">
+            <div class="PPStem1" style="height: 50px;"></div>
+        </div>
+        <div class="PPLVL3" style="visibility: hidden;">
+            <div class="Turnip"></div>
+            <div class="PPStem1" style="height: 150px;"></div>
+            <div class="LeafForward"></div>
+            <div class="LeafBackwards" style="bottom: 75px;"></div>
+        </div>
+    </div>
+    <div class="Plant" style="display: none;" id="CopyableWheatPlant">
+        <div class="PPLVL1" style="visibility: hidden;">
+            <div class="PPStem1"></div>
+        </div>
+        <div class="PPLVL2" style="visibility: hidden;">
+            <div class="PPStem1" style="height: 50px;"></div>
+        </div>
+        <div class="PPLVL3" style="visibility: hidden;">
+            <div class="PPStem1" style="height: 100px; background-color: rgb(233, 197, 132); border-right: rgb(192, 149, 70) 5px solid;"></div>
+        </div>
+    </div>
+
+
     <div style="display: none;" id="CopyableFarm" class="Plot">
         <span>
             <button class="PlotButton" onclick="GrowOptions(this.parentElement.parentElement.id, this)">Grow</button>
@@ -668,6 +749,10 @@
         </span>
         <div id="CopyableFarmContainer" class="PlantContainer"></div>
     </div>
+
+
+
+
 
     <p class="Money"><a id="Money"></a>$</p>
     <br> <br> <br> <br>
@@ -680,19 +765,25 @@
             <h3 class="MenuTitle">Plant</h3>
 
             <div class="ScrollingFrame">
-                <button class="PlantOptionsButton" id="GrowPatato">Patato Buy: $<a id="PatatoPrice">5</a></button>
+                <button class="PlantOptionsButton" id="GrowPatato">Potato Buy: $<a id="PatatoPrice">5</a></button>
                 <br>
                 <button class="PlantOptionsButton" id="GrowCarrot">Carrot Buy: $<a id="CarrotPrice">25</a></button>
                 <br>
                 <button class="PlantOptionsButton" id="GrowLettuce">Lettuce Buy: $<a id="LettucePrice">100</a></button>
+                <br>
+                <button class="PlantOptionsButton" id="GrowTomato">Tomato Buy: $<a id="TomatoPrice">750</a></button>
+                <br>
+                <button class="PlantOptionsButton" id="GrowWheat">Wheat Buy: $<a id="WheatPrice">4,000</a></button>
+                <br>
+                <button class="PlantOptionsButton" id="GrowTurnip">Turnip Buy: $<a id="TurnipPrice">10,000</a></button>
             </div>
 
         </section>
-        <section id="UpgradeConfirmation" class="UpgradeConfirmation">
+        <section id="UpgradeConfirmation" class="UpgradeConfirmation" style="height: 300px;">
             <button id="ExitButton2" class="ExitButton">X</button>
             <div style="position: fixed; left: 50%; transform: translate(-50%);">
                 <h3 class="MenuTitle">Upgrade</h3>
-                <button id="UpgradeButton" class="PlantOptionsButton">Upgrade $<a
+                <button id="UpgradeButton" class="PlantOptionsButton">Plot size $<a
                         id="RequestedUpgradePrice"></a></button>
             </div>
         </section>
@@ -779,11 +870,25 @@
             }
         }
 
-        var Dollars = 1000; /* Starting Price 25 */
+        function formatNumber(number) {
+            number = number.toFixed(2) + '';
+            x = number.split('.');
+            x1 = x[0];
+            x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            }
+            var unremovedDecimal = x1 + x2;
+            var RemovedDecimals = unremovedDecimal.split(".")[0];
+            return RemovedDecimals;
+        }
+
+        var Dollars = 99999; /* Starting Price 25 */
 
         function UpdateMoney() {
-            document.getElementById("Money").innerHTML = Dollars;
-            document.getElementById("Money2").innerHTML = Dollars;
+            document.getElementById("Money").innerHTML = formatNumber(Dollars);
+            document.getElementById("Money2").innerHTML = formatNumber(Dollars);
         }
         setInterval(() => {
             UpdateMoney()
@@ -811,14 +916,14 @@
 
 
         var CurrentFarms = 5;
-        var CreateFarmPrice = 1000;
+        var CreateFarmPrice = 10000;
 
         function CreateFarm() {
             const CopyableFarm = document.getElementById("CopyableFarm");
 
             if (Dollars >= CreateFarmPrice) {
                 Dollars -= CreateFarmPrice;
-                CreateFarmPrice += 1000;
+                CreateFarmPrice *= 2;
 
                 CurrentFarms += 1;
                 const NewFarm = CopyableFarm.cloneNode(true);
@@ -851,7 +956,7 @@
             let PlantCounter = Number(PlotInfo[1]);
 
             var IncreasedPriceNum = 50;
-            var UpgradePrice = IncreasedPriceNum * PlantCounter;
+            var UpgradePrice = IncreasedPriceNum * (PlantCounter * PlantCounter);
 
             document.getElementById("RequestedUpgradePrice").innerHTML = UpgradePrice;
 
@@ -873,7 +978,7 @@
             const UI = document.getElementById("NewPlotConFirmation");
             UI.style.display = "block";
 
-            document.getElementById("NewPlotPrice").innerHTML = CreateFarmPrice;
+            document.getElementById("NewPlotPrice").innerHTML = formatNumber(CreateFarmPrice);
 
             document.getElementById("ExitButton3").onclick = function () {
                 UI.style.display = "none";
@@ -932,25 +1037,59 @@
                 const NewItem = LisedItemCloneable.cloneNode(true);
                 NewItem.style.display = "block";
                 NewItem.children[0].innerHTML = `${item} x${itemCounts[item]}`;
+                NewItem.children[1].onclick = function () {
+                    Sell(item);
+                }
                 ListedItemsContainer.appendChild(NewItem);
             }
         }
 
-        setInterval(() => {
-            DisplayInventory()
-        }, 100);
+        DisplayInventory()
 
-        function Sell() {
-            for (var Item of Inventory) {
-                if (Item == "Patato") {
-                    Dollars += 15;
-                } else if (Item == "Carrot") {
-                    Dollars += 40;
-                } else if (Item == "Lettuce") {
-                    Dollars += 175
+        function SellAll() {
+            Sell("All")
+        }
+
+        function Sell(index) {
+            if (index == "All") {
+                for (var Item of Inventory) {
+                    if (Item == "Patato") {
+                        Dollars += 15;
+                    } else if (Item == "Carrot") {
+                        Dollars += 40;
+                    } else if (Item == "Lettuce") {
+                        Dollars += 175;
+                    } else if (Item == "Tomato") {
+                        Dollars += 1250;
+                    } else if (Item == "Turnip") {
+                        Dollars += 15000;
+                    } else if (Item == "Wheat") {
+                        Dollars += 6000;
+                    }
                 }
+                Inventory = [];
+            } else if (index == "Patato") {
+                Dollars += 15;
+                Inventory.splice(Inventory.indexOf("Patato"), 1);
+            } else if (index == "Carrot") {
+                Dollars += 40;
+                Inventory.splice(Inventory.indexOf("Carrot"), 1);
+            } else if (index == "Lettuce") {
+                Dollars += 175;
+                Inventory.splice(Inventory.indexOf("Lettuce"), 1);
+            } else if (index == "Tomato") {
+                Dollars += 1250;
+                Inventory.splice(Inventory.indexOf("Tomato"), 1);
+            } else if (index == "Turnip") {
+                Dollars += 15000;
+                Inventory.splice(Inventory.indexOf("Turnip"), 1);
+            } else if (index == "Wheat") {
+                Dollars += 6000;
+                Inventory.splice(Inventory.indexOf("Wheat"), 1);
             }
-            Inventory = []
+
+
+            DisplayInventory();
         }
 
 
@@ -958,7 +1097,7 @@
             let PlotNumInList = Number(Plot.replace("Plot", "")) - 1;
             let PlotInfo = PlotData[PlotNumInList].split(" ");
             if (PlotInfo[2] == "sell") {
-                Grow(Plot, button)
+                Grow(Plot, button);
                 return
             } else if (PlotInfo[2] == "false") {
                 const OptionUI = document.getElementById("PlantOptions");
@@ -967,9 +1106,12 @@
                 let SendPlot = Plot;
                 let SendButton = button;
 
-                document.getElementById("PatatoPrice").innerHTML = 5 * Number(PlotInfo[1]);
-                document.getElementById("CarrotPrice").innerHTML = 25 * Number(PlotInfo[1]);
-                document.getElementById("LettucePrice").innerHTML = 100 * Number(PlotInfo[1]);
+                document.getElementById("PatatoPrice").innerHTML = formatNumber(5 * Number(PlotInfo[1]));
+                document.getElementById("CarrotPrice").innerHTML = formatNumber(25 * Number(PlotInfo[1]));
+                document.getElementById("LettucePrice").innerHTML = formatNumber(100 * Number(PlotInfo[1]));
+                document.getElementById("TomatoPrice").innerHTML = formatNumber(750 * Number(PlotInfo[1]));
+                document.getElementById("TurnipPrice").innerHTML = formatNumber(10000 * Number(PlotInfo[1]));
+                document.getElementById("WheatPrice").innerHTML = formatNumber(4000 * Number(PlotInfo[1]));
 
                 document.getElementById("GrowPatato").onclick = function () {
                     if (Dollars >= 5 * Number(PlotInfo[1])) {
@@ -989,10 +1131,29 @@
                         Grow(SendPlot, SendButton, "Lettuce")
                     }
                 }
+                document.getElementById("GrowTomato").onclick = function () {
+                    if (Dollars >= 750 * Number(PlotInfo[1])) {
+                        Dollars -= 750 * Number(PlotInfo[1]);
+                        Grow(SendPlot, SendButton, "Tomato")
+                    }
+                }
+                document.getElementById("GrowTurnip").onclick = function () {
+                    if (Dollars >= 10000 * Number(PlotInfo[1])) {
+                        Dollars -= 10000 * Number(PlotInfo[1]);
+                        Grow(SendPlot, SendButton, "Turnip")
+                    }
+                }
+                document.getElementById("GrowWheat").onclick = function () {
+                    if (Dollars >= 4000 * Number(PlotInfo[1])) {
+                        Dollars -= 4000 * Number(PlotInfo[1]);
+                        Grow(SendPlot, SendButton, "Wheat")
+                    }
+                }
                 document.getElementById("ExitButton").onclick = function () {
                     const OptionUI = document.getElementById("PlantOptions");
                     OptionUI.style.display = "none";
                 }
+
             }
         }
 
@@ -1023,6 +1184,18 @@
                     if (Plant == "Lettuce") {
                         NewPatato = document.getElementById("CopyableLettucePlant").cloneNode(true);
                         PlotInfo[3] = "Lettuce";
+                    }
+                    if (Plant == "Tomato") {
+                        NewPatato = document.getElementById("CopyableTomatoPlant").cloneNode(true);
+                        PlotInfo[3] = "Tomato";
+                    }
+                    if (Plant == "Turnip") {
+                        NewPatato = document.getElementById("CopyableTurnipPlant").cloneNode(true);
+                        PlotInfo[3] = "Turnip";
+                    }
+                    if (Plant == "Wheat") {
+                        NewPatato = document.getElementById("CopyableWheatPlant").cloneNode(true);
+                        PlotInfo[3] = "Wheat";
                     }
 
                     NewPatato.style.display = "block";
@@ -1056,6 +1229,7 @@
                 for (let i = 0; i < Number(PlotInfo[1]); i++) {
                     Inventory.push(PlotInfo[3]);
                 }
+                DisplayInventory()
 
                 PlotInfo[2] = PlotInfo[2].replace("sell", "false");
                 PlotInfo[3] = "none";
