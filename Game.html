@@ -10,6 +10,7 @@
     body {
         background-color: green;
         background: radial-gradient(circle, rgba(0,128,0,1) 0%, rgba(24,131,24,1) 100%);
+        overflow: hidden;
     
     }
 
@@ -599,6 +600,66 @@
         transform: translateX(-50%);
         z-index: 1;
     }
+    .PeaPod {
+        height: 15px;
+        width: 30px;
+        background-color: rgb(18, 77, 13);
+        border-radius: 7px;
+        border-right: 8px solid rgb(63, 128, 88);
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1;
+    }
+    .KitchenOutside {
+        height: 200px;
+        width: 200px;
+        position: absolute;
+        right: 0;
+        top: 440px;
+    }
+    .FlatRoof {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 200px;
+        width: 100px;
+        background-color: rgb(83, 123, 139);
+        border-radius: 25px;
+        border: rgb(74, 106, 167) solid 20px;
+    }
+    .Building2Porch {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 100px;
+        width: 60px;
+        background-color: rgb(83, 123, 139);
+        border-radius: 25px;
+        border: rgb(74, 106, 167) solid 20px;
+        border-right: none;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+    }
+    .KitchenBackground {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        width: 100%;
+        background-color: rgb(69, 69, 69);
+        z-index: 100;
+    }
+    .KitchenFloor {
+        position: absolute;
+        left: 50px;
+        top: 50px;
+        width: 90%;
+        height: 100vh;
+        background-color: rgb(123, 123, 123);
+    }
 </style>
 
 <body>
@@ -652,6 +713,18 @@
     </div>
 
     <div id="Container"></div>
+
+    <div class="KitchenOutside">
+        <div class="FlatRoof"></div>
+        <div class="Building2Porch"></div>
+    </div>
+
+    <div class="KitchenBackground">
+        <button>Leave Kitchen</button>
+        <div class="KitchenFloor">
+
+        </div>
+    </div>
 
 
 
@@ -740,6 +813,23 @@
             <div class="PPStem1" style="height: 100px; background-color: rgb(233, 197, 132); border-right: rgb(192, 149, 70) 5px solid;"></div>
         </div>
     </div>
+    <div class="Plant" style="display: none;" id="CopyablePeasPlant">
+        <div class="PPLVL1" style="visibility: hidden;">
+            <div class="PPStem1"></div>
+        </div>
+        <div class="PPLVL2" style="visibility: hidden;">
+            <div class="PPStem1" style="height: 50px;"></div>
+        </div>
+        <div class="PPLVL3" style="visibility: hidden;">
+            <div class="PPStem1" style="height: 150px;"></div>
+            <div class="LeafForward">
+                <div class="PeaPod"></div>
+            </div>
+            <div class="LeafBackwards" style="bottom: 75px;">
+                <div class="PeaPod"></div>
+            </div>
+        </div>
+    </div>
 
 
     <div style="display: none;" id="CopyableFarm" class="Plot">
@@ -776,6 +866,8 @@
                 <button class="PlantOptionsButton" id="GrowWheat">Wheat Buy: $<a id="WheatPrice">4,000</a></button>
                 <br>
                 <button class="PlantOptionsButton" id="GrowTurnip">Turnip Buy: $<a id="TurnipPrice">10,000</a></button>
+                <br>
+                <button class="PlantOptionsButton" id="GrowPeas">Peas Buy: $<a id="PeasPrice">60,000</a></button>
             </div>
 
         </section>
@@ -884,7 +976,7 @@
             return RemovedDecimals;
         }
 
-        var Dollars = 99999; /* Starting Price 25 */
+        var Dollars = 10000000; /* Starting Price 40 */
 
         function UpdateMoney() {
             document.getElementById("Money").innerHTML = formatNumber(Dollars);
@@ -1065,6 +1157,8 @@
                         Dollars += 15000;
                     } else if (Item == "Wheat") {
                         Dollars += 6000;
+                    } else if (Item == "Peas") {
+                        Dollars += 100000;
                     }
                 }
                 Inventory = [];
@@ -1086,7 +1180,10 @@
             } else if (index == "Wheat") {
                 Dollars += 6000;
                 Inventory.splice(Inventory.indexOf("Wheat"), 1);
-            }
+            } else if (index == "Peas") {
+                Dollars += 100000;
+                Inventory.splice(Inventory.indexOf("Peas"), 1);
+            } 
 
 
             DisplayInventory();
@@ -1112,6 +1209,7 @@
                 document.getElementById("TomatoPrice").innerHTML = formatNumber(750 * Number(PlotInfo[1]));
                 document.getElementById("TurnipPrice").innerHTML = formatNumber(10000 * Number(PlotInfo[1]));
                 document.getElementById("WheatPrice").innerHTML = formatNumber(4000 * Number(PlotInfo[1]));
+                document.getElementById("PeasPrice").innerHTML = formatNumber(60000 * Number(PlotInfo[1]));
 
                 document.getElementById("GrowPatato").onclick = function () {
                     if (Dollars >= 5 * Number(PlotInfo[1])) {
@@ -1147,6 +1245,12 @@
                     if (Dollars >= 4000 * Number(PlotInfo[1])) {
                         Dollars -= 4000 * Number(PlotInfo[1]);
                         Grow(SendPlot, SendButton, "Wheat")
+                    }
+                }
+                document.getElementById("GrowPeas").onclick = function () {
+                    if (Dollars >= 60000 * Number(PlotInfo[1])) {
+                        Dollars -= 60000 * Number(PlotInfo[1]);
+                        Grow(SendPlot, SendButton, "Peas")
                     }
                 }
                 document.getElementById("ExitButton").onclick = function () {
@@ -1196,6 +1300,10 @@
                     if (Plant == "Wheat") {
                         NewPatato = document.getElementById("CopyableWheatPlant").cloneNode(true);
                         PlotInfo[3] = "Wheat";
+                    }
+                    if (Plant == "Peas") {
+                        NewPatato = document.getElementById("CopyablePeasPlant").cloneNode(true);
+                        PlotInfo[3] = "Peas";
                     }
 
                     NewPatato.style.display = "block";
