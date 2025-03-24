@@ -683,6 +683,53 @@
         height: 150px;
         width: 150px;
         background-color: rgb(193, 193, 193);   
+        position: absolute;
+    }
+    .OvenDoor {
+        height: 5px;
+        width: 130px;
+        position: absolute;
+        bottom: -5px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgb(162, 162, 162);
+    }
+    .CookButton {
+        position: absolute;
+        left: 50%;
+        top: 1px;
+        transform: translateX(-50%);
+        width: 50%;
+    }
+    .Stove {
+        height: 110px;
+        width: 110px;
+        background-color: rgb(146, 146, 146);
+        position: absolute;
+        bottom: 5px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .InnerStove {
+        height: 90px;
+        width: 90px;
+        background-color: rgb(73, 73, 73);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 25px;
+    }
+    .Pan {
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        background-color: rgb(59, 59, 59);
+        border: 3px solid rgb(43, 43, 43);
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
     }
 </style>
 
@@ -750,7 +797,15 @@
         <button class="ExitKitchenButton" onclick="LeaveKitchen()">Leave Kitchen</button>
         <div class="KitchenFloor">
             <div class="OvenDiv">
-                <div class="Oven"></div>
+                <div class="Oven">
+                    <div class="OvenDoor"></div>
+                    <button class="CookButton" onclick="CookOptions(this.parentElement)">Cook</button>
+                    <div class="Stove">
+                        <div class="InnerStove">
+                            <div class="Pan"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -900,6 +955,17 @@
             </div>
 
         </section>
+        <section id="CookOptions" class="PlantOptions" style="display: none; z-index: 105;">
+            <button id="ExitButton" class="ExitButton">X</button>
+
+            <h3 class="MenuTitle">Cook</h3>
+
+            <div class="ScrollingFrame">
+                <button class="PlantOptionsButton" id="GrowPatato">Fries: 1 Patato</button>
+                <br>
+            </div>
+
+        </section>
         <section id="UpgradeConfirmation" class="UpgradeConfirmation" style="height: 300px;">
             <button id="ExitButton2" class="ExitButton">X</button>
             <div style="position: fixed; left: 50%; transform: translate(-50%);">
@@ -1016,13 +1082,18 @@
             UpdateMoney()
         }, 500);
 
+        function CookOptions(Oven) {
+            document.getElementById("CookOptions").style.display = "block";
 
-        function Cook(Product) {
-            const itemCounts = [];
-            for (let i = 0; i < Inventory.length; i++) {
-                const item = Inventory[i];
-                itemCounts[item] = (itemCounts[item] || 0) + 1;
-            }
+            console.log(Oven);
+
+            Cook("Fries", Oven)
+        }
+
+
+        function Cook(Product, Oven) {
+            Oven.children[2].children[0].style.backgroundColor = "rgb(163, 56, 26)";
+
             var Patatos = 0;
             var Carrots = 0;
             var Lettuces = 0;
@@ -1030,33 +1101,34 @@
             var Wheats = 0;
             var Turnips = 0;
             var Peass = 0;
-            for (const item in itemCounts) {
-                if (item == "Patato") {
+            for (const item in Inventory) {
+                if (Inventory[item] == "Patato") {
                     Patatos += 1;
-                } else if (item == "Carrot") {
+                } else if (Inventory[item] == "Carrot") {
                     Carrots += 1;
-                } else if (item == "Lettuce") {
+                } else if (Inventory[item] == "Lettuce") {
                     Lettuces += 1;
-                } else if (item == "Tomato") {
+                } else if (Inventory[item] == "Tomato") {
                     Tomatos += 1;
-                } else if (item == "Wheat") {
+                } else if (Inventory[item] == "Wheat") {
                     Wheats += 1;
-                } else if (item == "Turnip") {
+                } else if (Inventory[item] == "Turnip") {
                     Turnips += 1;
-                } else if (item == "Peass") {
+                } else if (Inventory[item] == "Peass") {
                     Peass += 1;
                 }
             }
 
-
+            if (Product == "Fries") {
+                if (Patatos >= 1) { 
+                    console.log("Making Fries")
+                    Inventory.splice(Inventory.indexOf("Patato"), 1);
+                    DisplayInventory();
+                }
+            }
 
         }
         
-        setInterval(() => {
-            Cook()
-        }, 100);
-
-
 
         function EnterHouse() {
             document.getElementById("HB").style.display = "block";
