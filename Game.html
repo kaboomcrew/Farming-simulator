@@ -9,9 +9,9 @@
 <style>
     body {
         background-color: green;
-        background: radial-gradient(circle, rgba(0,128,0,1) 0%, rgba(24,131,24,1) 100%);
+        background: radial-gradient(circle, rgba(0, 128, 0, 1) 0%, rgba(24, 131, 24, 1) 100%);
         overflow: hidden;
-    
+
     }
 
     .Plant {
@@ -600,6 +600,7 @@
         transform: translateX(-50%);
         z-index: 1;
     }
+
     .PeaPod {
         height: 15px;
         width: 30px;
@@ -612,6 +613,7 @@
         transform: translateX(-50%);
         z-index: 1;
     }
+
     .KitchenOutside {
         height: 200px;
         width: 200px;
@@ -619,6 +621,7 @@
         right: 0;
         top: 440px;
     }
+
     .FlatRoof {
         position: absolute;
         right: 0;
@@ -629,6 +632,7 @@
         border-radius: 25px;
         border: rgb(74, 106, 167) solid 20px;
     }
+
     .Building2Porch {
         position: absolute;
         left: 0;
@@ -643,6 +647,7 @@
         border-top-right-radius: 0px;
         border-bottom-right-radius: 0px;
     }
+
     .KitchenBackground {
         position: absolute;
         left: 0;
@@ -652,6 +657,7 @@
         background-color: rgb(69, 69, 69);
         z-index: 100;
     }
+
     .KitchenFloor {
         position: absolute;
         left: 50%;
@@ -662,6 +668,7 @@
         background-color: rgb(123, 123, 123);
         border-radius: 50px;
     }
+
     .ExitKitchenButton {
         position: absolute;
         bottom: 0;
@@ -671,20 +678,39 @@
         z-index: inherit;
         border-top-left-radius: 50px;
     }
+
     .OvenDiv {
         height: 150px;
         width: 100%;
-        display: flex;
-        flex-wrap: nowrap;
-        gap: 10px;
-        justify-content: left;
+        position: relative;
     }
+
     .Oven {
         height: 150px;
         width: 150px;
-        background-color: rgb(193, 193, 193);   
+        background-color: rgb(193, 193, 193);
         position: absolute;
     }
+    .Oven:nth-child(1) {
+        left: 0px;
+    }
+
+    .Oven:nth-child(2) {
+        left: 150px;
+    }
+
+    .Oven:nth-child(3) {
+        left: 300px;
+    }
+
+    .Oven:nth-child(4) {
+        left: 450px;
+    }
+
+    .Oven:nth-child(5) {
+        left: 600px;
+    }
+
     .OvenDoor {
         height: 5px;
         width: 130px;
@@ -694,6 +720,7 @@
         transform: translateX(-50%);
         background-color: rgb(162, 162, 162);
     }
+
     .CookButton {
         position: absolute;
         left: 50%;
@@ -701,6 +728,7 @@
         transform: translateX(-50%);
         width: 50%;
     }
+
     .Stove {
         height: 110px;
         width: 110px;
@@ -710,6 +738,7 @@
         left: 50%;
         transform: translateX(-50%);
     }
+
     .InnerStove {
         height: 90px;
         width: 90px;
@@ -720,6 +749,7 @@
         transform: translate(-50%, -50%);
         border-radius: 25px;
     }
+
     .Pan {
         height: 50px;
         width: 50px;
@@ -734,8 +764,6 @@
 </style>
 
 <body>
-
-    <div id="output">Output</div>
 
     <div class="HouseBackground" style="display: none;" id="HB">
         <button class="UseComputerButton" onclick="UseComputer()">Toggle Computer</button>
@@ -796,7 +824,8 @@
     <div id="KitchenBackground" class="KitchenBackground">
         <button class="ExitKitchenButton" onclick="LeaveKitchen()">Leave Kitchen</button>
         <div class="KitchenFloor">
-            <div class="OvenDiv">
+            <div class="OvenDiv" id="OvenDiv">
+
                 <div class="Oven">
                     <div class="OvenDoor"></div>
                     <button class="CookButton" onclick="CookOptions(this.parentElement)">Cook</button>
@@ -806,6 +835,8 @@
                         </div>
                     </div>
                 </div>
+
+                <button id="NewOvenButton" class="Oven" style="border-radius: 25px; border: 10px solid rgb(198, 198, 198); width: 130px; font-family: cursive; font-size: 100px; color: white; background: rgb(115,115,115); background: linear-gradient(0deg, rgba(115,115,115,1) 0%, rgba(175,175,175,1) 100%);" onclick="OpenOvenCreationUI()" >+</button>
             </div>
         </div>
     </div>
@@ -894,7 +925,9 @@
             <div class="PPStem1" style="height: 50px;"></div>
         </div>
         <div class="PPLVL3" style="visibility: hidden;">
-            <div class="PPStem1" style="height: 100px; background-color: rgb(233, 197, 132); border-right: rgb(192, 149, 70) 5px solid;"></div>
+            <div class="PPStem1"
+                style="height: 100px; background-color: rgb(233, 197, 132); border-right: rgb(192, 149, 70) 5px solid;">
+            </div>
         </div>
     </div>
     <div class="Plant" style="display: none;" id="CopyablePeasPlant">
@@ -911,6 +944,15 @@
             </div>
             <div class="LeafBackwards" style="bottom: 75px;">
                 <div class="PeaPod"></div>
+            </div>
+        </div>
+        <div class="Oven" id="CopyableOven" style="display: none;">
+            <div class="OvenDoor"></div>
+            <button class="CookButton" onclick="CookOptions(this.parentElement)">Cook</button>
+            <div class="Stove">
+                <div class="InnerStove">
+                    <div class="Pan"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -956,7 +998,8 @@
 
         </section>
         <section id="CookOptions" class="PlantOptions" style="display: none; z-index: 105;">
-            <button id="ExitButton" class="ExitButton">X</button>
+            <button onclick="document.getElementById('CookOptions').style.display = 'none';"
+                class="ExitButton">X</button>
 
             <h3 class="MenuTitle">Cook</h3>
 
@@ -982,6 +1025,15 @@
             <br> <br>
             <button id="NewPlotConFirmationButton" class="PlantOptionsButton">Buy New Plot $<a
                     id="NewPlotPrice"></a></button>
+        </section>
+        <section class="UpgradeConfirmation" id="NewOvenConfirmation"
+            style="display: none; text-align: center; height: 350px; z-index: 108;">
+            <button class="ExitButton" onclick="document.getElementById('NewOvenConfirmation').style.display = 'none'">X</button> 
+
+            <h3 class="MenuTitle">Buy Oven</h3>
+            <br> <br>
+            <button id="NewOvenConFirmationButton" class="PlantOptionsButton">Buy New Oven $<a
+                    id="NewOvenPrice"></a></button>
         </section>
     </div>
 
@@ -1072,7 +1124,7 @@
             return RemovedDecimals;
         }
 
-        var Dollars = 10; /* Starting Price 40 */
+        var Dollars = 1000; /* Starting Price 40 */
 
         function UpdateMoney() {
             document.getElementById("Money").innerHTML = formatNumber(Dollars);
@@ -1082,7 +1134,35 @@
             UpdateMoney()
         }, 500);
 
+        var Ovens = 1;
+        var OvenPrice = 200;
+
+        function OpenOvenCreationUI() {
+            document.getElementById("NewOvenConfirmation").style.display = "block";
+            document.getElementById("NewOvenPrice").innerHTML = formatNumber(OvenPrice * Ovens);
+
+            document.getElementById("NewOvenConFirmationButton").onclick = function() {
+                if (Dollars >= (OvenPrice * Ovens) && Ovens <= 4) {
+                    const CloneableOven = document.getElementById("CopyableOven");
+                    const NewOven = CloneableOven.cloneNode(true);
+                    NewOven.style.display = "block";
+
+                    document.getElementById("OvenDiv").appendChild(NewOven);
+                    document.getElementById("OvenDiv").appendChild(document.getElementById("NewOvenButton"));
+                    Ovens += 1;
+                    document.getElementById('NewOvenConfirmation').style.display = 'none'
+                    if (Ovens == 5) {
+                        document.getElementById("NewOvenButton").style.display = "none";
+                    }
+                }
+            }
+        }
+
         function CookOptions(Oven) {
+            if (Oven.children[2].children[0].style.backgroundColor == "rgb(163, 56, 26)") {
+                return
+            }
+
             document.getElementById("CookOptions").style.display = "block";
 
             var Patatos = 0;
@@ -1110,10 +1190,10 @@
                 }
             }
 
-            document.getElementById("MakeFries").onclick = function() {
+            document.getElementById("MakeFries").onclick = function () {
                 if (Patatos >= 1) {
                     Cook("Fries", Oven);
-                    document.getElementById("CookOptions").style.display = "none";
+                    document.getElementById('CookOptions').style.display = 'none';
                 }
             }
         }
@@ -1121,6 +1201,7 @@
 
         function Cook(Product, Oven) {
             Oven.children[2].children[0].style.backgroundColor = "rgb(163, 56, 26)";
+            Oven.children[2].children[0].children[0].style.backgroundColor = "rgb(179, 154, 96";
 
 
             if (Product == "Fries") {
@@ -1128,8 +1209,23 @@
                 DisplayInventory();
             }
 
+
+
+            setTimeout(() => {
+                const Button = Oven.children[1];
+                Button.innerHTML = "Collect";
+                Oven.children[2].children[0].style.backgroundColor = "rgb(73, 73, 73)";
+                Button.onclick = function () {
+                    Inventory.push(Product);
+                    DisplayInventory();
+
+                    Oven.children[2].children[0].children[0].style.backgroundColor = "rgb(59, 59, 59)";
+                    Button.onclick = function () { CookOptions(this.parentElement) };
+                }
+            }, 4000);
+
         }
-        
+
 
         function EnterHouse() {
             document.getElementById("HB").style.display = "block";
@@ -1147,7 +1243,7 @@
         }
 
         let PlotData = [];
-        
+
 
         var Date = new Date();
         var Year = Date.getFullYear();
@@ -1312,6 +1408,8 @@
                         Dollars += 6000;
                     } else if (Item == "Peas") {
                         Dollars += 100000;
+                    } else if (Item == "Fries") {
+                        Dollars += 50;
                     }
                 }
                 Inventory = [];
@@ -1336,7 +1434,10 @@
             } else if (index == "Peas") {
                 Dollars += 100000;
                 Inventory.splice(Inventory.indexOf("Peas"), 1);
-            } 
+            } else if (index == "Fries") {
+                Dollars += 50;
+                Inventory.splice(Inventory.indexOf("Fries"), 1);
+            }
 
 
             DisplayInventory();
