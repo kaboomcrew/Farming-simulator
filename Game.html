@@ -961,7 +961,7 @@
             <h3 class="MenuTitle">Cook</h3>
 
             <div class="ScrollingFrame">
-                <button class="PlantOptionsButton" id="GrowPatato">Fries: 1 Patato</button>
+                <button class="PlantOptionsButton" id="MakeFries">Fries: 1 Patato</button>
                 <br>
             </div>
 
@@ -1046,7 +1046,7 @@
 
 
     <script>
-        let Inventory = ["Carrot", "Carrot"];
+        let Inventory = [];
         let IsOn = false;
         function UseComputer() {
             if (!IsOn) {
@@ -1085,15 +1085,6 @@
         function CookOptions(Oven) {
             document.getElementById("CookOptions").style.display = "block";
 
-            console.log(Oven);
-
-            Cook("Fries", Oven)
-        }
-
-
-        function Cook(Product, Oven) {
-            Oven.children[2].children[0].style.backgroundColor = "rgb(163, 56, 26)";
-
             var Patatos = 0;
             var Carrots = 0;
             var Lettuces = 0;
@@ -1119,12 +1110,22 @@
                 }
             }
 
-            if (Product == "Fries") {
-                if (Patatos >= 1) { 
-                    console.log("Making Fries")
-                    Inventory.splice(Inventory.indexOf("Patato"), 1);
-                    DisplayInventory();
+            document.getElementById("MakeFries").onclick = function() {
+                if (Patatos >= 1) {
+                    Cook("Fries", Oven);
+                    document.getElementById("CookOptions").style.display = "none";
                 }
+            }
+        }
+
+
+        function Cook(Product, Oven) {
+            Oven.children[2].children[0].style.backgroundColor = "rgb(163, 56, 26)";
+
+
+            if (Product == "Fries") {
+                Inventory.splice(Inventory.indexOf("Patato"), 1);
+                DisplayInventory();
             }
 
         }
