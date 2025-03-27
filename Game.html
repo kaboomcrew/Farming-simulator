@@ -842,8 +842,6 @@
     </div>
 
 
-
-
     <div class="Plant" style="display: none;" id="CopyablePatatoPlant">
         <div class="PPLVL1" style="visibility: hidden;">
             <div class="PPStem1"></div>
@@ -1006,7 +1004,14 @@
             <div class="ScrollingFrame">
                 <button class="PlantOptionsButton" id="MakeFries">Fries: 1 Patato</button>
                 <br>
+                <button class="PlantOptionsButton" id="MakeCarrotSoup">Carrot Soup: 2 Carrots</button>
+                <br>
+                <button class="PlantOptionsButton" id="MakeBread">Bread: 3 Wheat</button>
+                <br>
+                <button class="PlantOptionsButton" id="MakeSalad">Salad: 1 Carrot, 2 Lettuce, 1 Tomato, 2 Peas</button>
+                <br>
             </div>
+            
 
         </section>
         <section id="UpgradeConfirmation" class="UpgradeConfirmation" style="height: 300px;">
@@ -1124,7 +1129,7 @@
             return RemovedDecimals;
         }
 
-        var Dollars = 1000; /* Starting Price 40 */
+        var Dollars = 1000000; /* Starting Price 40 */
 
         function UpdateMoney() {
             document.getElementById("Money").innerHTML = formatNumber(Dollars);
@@ -1139,10 +1144,10 @@
 
         function OpenOvenCreationUI() {
             document.getElementById("NewOvenConfirmation").style.display = "block";
-            document.getElementById("NewOvenPrice").innerHTML = formatNumber(OvenPrice * Ovens);
+            document.getElementById("NewOvenPrice").innerHTML = formatNumber((OvenPrice * Math.pow(10, Ovens)));
 
             document.getElementById("NewOvenConFirmationButton").onclick = function() {
-                if (Dollars >= (OvenPrice * Ovens) && Ovens <= 4) {
+                if (Dollars >= (OvenPrice * Math.pow(10, Ovens)) && Ovens <= 4) {
                     const CloneableOven = document.getElementById("CopyableOven");
                     const NewOven = CloneableOven.cloneNode(true);
                     NewOven.style.display = "block";
@@ -1150,7 +1155,7 @@
                     document.getElementById("OvenDiv").appendChild(NewOven);
                     document.getElementById("OvenDiv").appendChild(document.getElementById("NewOvenButton"));
                     Ovens += 1;
-                    document.getElementById('NewOvenConfirmation').style.display = 'none'
+                    document.getElementById('NewOvenConfirmation').style.display = 'none';
                     if (Ovens == 5) {
                         document.getElementById("NewOvenButton").style.display = "none";
                     }
@@ -1160,7 +1165,7 @@
 
         function CookOptions(Oven) {
             if (Oven.children[2].children[0].style.backgroundColor == "rgb(163, 56, 26)") {
-                return
+                return;
             }
 
             document.getElementById("CookOptions").style.display = "block";
@@ -1196,7 +1201,26 @@
                     document.getElementById('CookOptions').style.display = 'none';
                 }
             }
+            document.getElementById("MakeCarrotSoup").onclick = function () {
+                if (Carrots >= 2) {
+                    Cook("CarrotSoup", Oven);
+                    document.getElementById('CookOptions').style.display = 'none';
+                }
+            }
+            document.getElementById("MakeBread").onclick = function () {
+                if (Wheats >= 3) {
+                    Cook("Bread", Oven);
+                    document.getElementById('CookOptions').style.display = 'none';
+                }
+            }
+            document.getElementById("MakeSalad").onclick = function () {
+                if (Carrots >= 1 && Lettuces >= 2 && Tomatos >= 1 && Peass >= 2) {
+                    Cook("Salad", Oven);
+                    document.getElementById('CookOptions').style.display = 'none';
+                }
+            }
         }
+
 
 
         function Cook(Product, Oven) {
@@ -1206,6 +1230,15 @@
 
             if (Product == "Fries") {
                 Inventory.splice(Inventory.indexOf("Patato"), 1);
+                DisplayInventory();
+            } else if (Product == "CarrotSoup") {
+                Inventory.splice(Inventory.indexOf("Carrot"), 2);
+                DisplayInventory();
+            } else if (Product == "Bread") {
+                Inventory.splice(Inventory.indexOf("Wheat"), 3);
+                DisplayInventory();
+            } else if (Product == "Salad") {
+                Inventory.splice(Inventory.indexOf("Carrot"), 3);
                 DisplayInventory();
             }
 
@@ -1220,6 +1253,7 @@
                     DisplayInventory();
 
                     Oven.children[2].children[0].children[0].style.backgroundColor = "rgb(59, 59, 59)";
+                    Button.innerHTML = "Cook";
                     Button.onclick = function () { CookOptions(this.parentElement) };
                 }
             }, 4000);
@@ -1410,6 +1444,10 @@
                         Dollars += 100000;
                     } else if (Item == "Fries") {
                         Dollars += 50;
+                    } else if (Item == "CarrotSoup") {
+                        Dollars += 150;
+                    } else if (Item == "Bread") {
+                        Dollars += 30000;
                     }
                 }
                 Inventory = [];
@@ -1437,6 +1475,12 @@
             } else if (index == "Fries") {
                 Dollars += 50;
                 Inventory.splice(Inventory.indexOf("Fries"), 1);
+            } else if (index == "CarrotSoup") {
+                Dollars += 150;
+                Inventory.splice(Inventory.indexOf("CarrotSoup"), 1);
+            } else if (index == "Bread") {
+                Dollars += 30000;
+                Inventory.splice(Inventory.indexOf("Wheat"), 1);
             }
 
 
