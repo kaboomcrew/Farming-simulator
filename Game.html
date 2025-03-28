@@ -704,6 +704,7 @@
         background-color: rgb(193, 193, 193);
         position: absolute;
     }
+
     .Oven:nth-child(1) {
         left: 0px;
     }
@@ -774,9 +775,73 @@
         top: 50%;
         transform: translate(-50%, -50%);
     }
+
+    .MenuUI {
+        width: 100%;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        background-color: rgba(255, 255, 255, 0.249);
+        backdrop-filter: blur(5px);
+    }
+
+    .SideBar {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 100vh;
+        width: 500px;
+        background-color: rgba(255, 255, 255);
+        z-index: inherit;
+        border: black solid 5px;
+        border-top: none;
+    }
+
+    .ButtonSection {
+        position: absolute;
+        height: 50vh;
+        width: auto;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+    }
 </style>
 
 <body>
+    <div id="MenuUI" class="MenuUI">
+        <div class="SideBar">
+            <h3 class="MenuTitle" style="text-align: center;">Farming Simulator</h3>
+
+            <div class="ButtonSection">
+                <div id="MainOptions">
+                    <button class="PlantOptionsButton" onclick="Normal()">Quick Play</button>
+                    <div style="height: 10px;"></div>
+                    <button class="PlantOptionsButton" onclick="document.getElementById('PlayOptions').style.display = 'block'; document.getElementById('MainOptions').style.display = 'none';">Play</button>
+                    <div style="height: 10px;"></div>
+                    <button class="PlantOptionsButton" onclick="document.getElementById('Credits').style.display = 'block'; document.getElementById('MainOptions').style.display = 'none';">Credits</button>
+                </div>
+
+                <div id="PlayOptions" style="display: none;" class="PlayOptions">
+                    <button class="PlantOptionsButton" onclick="Easy()">Easy</button>
+                    <div style="height: 10px;"></div>
+                    <button class="PlantOptionsButton" onclick="Normal()">Normal</button>
+                    <div style="height: 10px;"></div>
+                    <button class="PlantOptionsButton" onclick="Hard()">Hard</button>
+                </div>
+
+                <div style="display: none; text-align: center;" id="Credits">
+                    <button class="PlantOptionsButton" onclick="document.getElementById('MainOptions').style.display = 'block'; document.getElementById('Credits').style.display = 'none';">back</button>
+                    <div style="height: 10px;"></div>
+                    <p style="font-family: cursive;">Creator/Developer: <a style="color: orange;" href="https://github.com/kaboomcrew">kaboomcrew</a></p>
+                    <p style="font-family: cursive;">Ideas: @Dz</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div class="HouseBackground" style="display: none;" id="HB">
         <button class="UseComputerButton" onclick="UseComputer()">Toggle Computer</button>
@@ -829,7 +894,7 @@
     <div id="Container"></div>
 
     <div class="KitchenOutside">
-        <button class="EnterHouseButton" onclick="EnterKitchen()">Enter Kitchen</button>
+        <button class="EnterHouseButton" style="z-index: 50;" onclick="EnterKitchen()">Enter Kitchen</button>
         <div class="FlatRoof"></div>
         <div class="Building2Porch"></div>
     </div>
@@ -849,7 +914,9 @@
                     </div>
                 </div>
 
-                <button id="NewOvenButton" class="Oven" style="border-radius: 25px; border: 10px solid rgb(198, 198, 198); width: 130px; font-family: cursive; font-size: 100px; color: white; background: rgb(115,115,115); background: linear-gradient(0deg, rgba(115,115,115,1) 0%, rgba(175,175,175,1) 100%);" onclick="OpenOvenCreationUI()" >+</button>
+                <button id="NewOvenButton" class="Oven"
+                    style="border-radius: 25px; border: 10px solid rgb(198, 198, 198); width: 130px; font-family: cursive; font-size: 100px; color: white; background: rgb(115,115,115); background: linear-gradient(0deg, rgba(115,115,115,1) 0%, rgba(175,175,175,1) 100%);"
+                    onclick="OpenOvenCreationUI()">+</button>
             </div>
         </div>
     </div>
@@ -1020,7 +1087,7 @@
                 <br>
                 <button class="PlantOptionsButton" id="GrowPeas">Peas Buy: $<a id="PeasPrice">60,000</a></button>
                 <br>
-                <button class="PlantOptionsButton" id="GrowBanana">Banana Buy: $<a id="PeasPrice">65,000</a></button>
+                <button class="PlantOptionsButton" id="GrowBanana">Banana Buy: $<a id="BananaPrice">65,000</a></button>
             </div>
 
         </section>
@@ -1046,7 +1113,7 @@
                 <button class="PlantOptionsButton" id="MakeBananaBread">Banana Bread: 2 Bananas, 1 Wheat</button>
                 <br>
             </div>
-            
+
 
         </section>
         <section id="UpgradeConfirmation" class="UpgradeConfirmation" style="height: 300px;">
@@ -1068,7 +1135,8 @@
         </section>
         <section class="UpgradeConfirmation" id="NewOvenConfirmation"
             style="display: none; text-align: center; height: 350px; z-index: 108;">
-            <button class="ExitButton" onclick="document.getElementById('NewOvenConfirmation').style.display = 'none'">X</button> 
+            <button class="ExitButton"
+                onclick="document.getElementById('NewOvenConfirmation').style.display = 'none'">X</button>
 
             <h3 class="MenuTitle">Buy Oven</h3>
             <br> <br>
@@ -1134,11 +1202,6 @@
         <button class="NewFarm" id="CreateFarmButton" onclick="OpenPlotCreationUI()">+</button>
     </div>
 
-    <div class="MenuUI">
-
-    </div>
-
-
 
     <script>
         let Inventory = [];
@@ -1167,7 +1230,36 @@
             return RemovedDecimals;
         }
 
-        var Dollars = 4000000000; /* Starting Price 40 */
+        var Dollars = 40; /* Starting Price 40 */
+        var MoneyMultiplier = 1.00;
+        var GrowingTime = 4000; /* Ms */
+        var CookingTime = 8000;
+
+        const MainUI = document.getElementById("MenuUI");
+
+        function Easy() {
+            Dollars = 60;
+            MoneyMultiplier = 1.70;
+            GrowingTime = 2000;
+            CookingTime = 4000;
+            MainUI.style.display = "none";
+        }
+
+        function Normal() {
+            Dollars = 40;
+            MoneyMultiplier = 1.20;
+            GrowingTime = 4000;
+            CookingTime = 8000;
+            MainUI.style.display = "none";
+        }
+
+        function Hard() {
+            Dollars = 10;
+            MoneyMultiplier = 1.00;
+            GrowingTime = 6000;
+            CookingTime = 10000;
+            MainUI.style.display = "none";
+        }
 
         function UpdateMoney() {
             document.getElementById("Money").innerHTML = formatNumber(Dollars);
@@ -1184,7 +1276,7 @@
             document.getElementById("NewOvenConfirmation").style.display = "block";
             document.getElementById("NewOvenPrice").innerHTML = formatNumber((OvenPrice * Math.pow(10, Ovens)));
 
-            document.getElementById("NewOvenConFirmationButton").onclick = function() {
+            document.getElementById("NewOvenConFirmationButton").onclick = function () {
                 if (Dollars >= (OvenPrice * Math.pow(10, Ovens)) && Ovens <= 4) {
                     const CloneableOven = document.getElementById("CopyableOven");
                     const NewOven = CloneableOven.cloneNode(true);
@@ -1312,7 +1404,7 @@
                 Inventory.splice(Inventory.indexOf("Banana"), 2);
                 Inventory.splice(Inventory.indexOf("Wheat"), 1);
                 DisplayInventory();
-            } 
+            }
 
 
 
@@ -1328,7 +1420,7 @@
                     Button.innerHTML = "Cook";
                     Button.onclick = function () { CookOptions(this.parentElement) };
                 }
-            }, 4000);
+            }, CookingTime);
 
         }
 
@@ -1606,6 +1698,7 @@
                 document.getElementById("TurnipPrice").innerHTML = formatNumber(10000 * Number(PlotInfo[1]));
                 document.getElementById("WheatPrice").innerHTML = formatNumber(4000 * Number(PlotInfo[1]));
                 document.getElementById("PeasPrice").innerHTML = formatNumber(60000 * Number(PlotInfo[1]));
+                document.getElementById("BananaPrice").innerHTML = formatNumber(65000 * Number(PlotInfo[1]));
 
                 document.getElementById("GrowPatato").onclick = function () {
                     if (Dollars >= 5 * Number(PlotInfo[1])) {
@@ -1728,7 +1821,7 @@
                                 let ReturningString = PlotInfo[0] + " " + PlotInfo[1] + " " + PlotInfo[2] + " " + PlotInfo[3];
                                 PlotData[PlotNumInList] = ReturningString;
                             }
-                        }, j * 4000);
+                        }, j * CookingTime);
                     }
                 }
 
