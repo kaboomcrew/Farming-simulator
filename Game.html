@@ -614,6 +614,19 @@
         z-index: 1;
     }
 
+    .Banana {
+        height: 26px;
+        width: 8px;
+        background-color: rgb(196, 199, 48);
+        border-radius: 7px;
+        border-right: 4px solid rgba(144, 136, 32, 0.952);
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1;
+    }
+
     .KitchenOutside {
         height: 200px;
         width: 200px;
@@ -944,13 +957,30 @@
                 <div class="PeaPod"></div>
             </div>
         </div>
-        <div class="Oven" id="CopyableOven" style="display: none;">
-            <div class="OvenDoor"></div>
-            <button class="CookButton" onclick="CookOptions(this.parentElement)">Cook</button>
-            <div class="Stove">
-                <div class="InnerStove">
-                    <div class="Pan"></div>
-                </div>
+    </div>
+    <div class="Plant" style="display: none;" id="CopyableBananaPlant">
+        <div class="PPLVL1" style="visibility: hidden;">
+            <div class="PPStem1"></div>
+        </div>
+        <div class="PPLVL2" style="visibility: hidden;">
+            <div class="PPStem1" style="height: 50px;"></div>
+        </div>
+        <div class="PPLVL3" style="visibility: hidden;">
+            <div class="PPStem1" style="height: 150px;"></div>
+            <div class="LeafForward">
+                <div class="Banana"></div>
+            </div>
+            <div class="LeafBackwards" style="bottom: 75px;">
+                <div class="Banana"></div>
+            </div>
+        </div>
+    </div>
+    <div class="Oven" id="CopyableOven" style="display: none;">
+        <div class="OvenDoor"></div>
+        <button class="CookButton" onclick="CookOptions(this.parentElement)">Cook</button>
+        <div class="Stove">
+            <div class="InnerStove">
+                <div class="Pan"></div>
             </div>
         </div>
     </div>
@@ -963,9 +993,6 @@
         </span>
         <div id="CopyableFarmContainer" class="PlantContainer"></div>
     </div>
-
-
-
 
 
     <p class="Money"><a id="Money"></a>$</p>
@@ -992,6 +1019,8 @@
                 <button class="PlantOptionsButton" id="GrowTurnip">Turnip Buy: $<a id="TurnipPrice">10,000</a></button>
                 <br>
                 <button class="PlantOptionsButton" id="GrowPeas">Peas Buy: $<a id="PeasPrice">60,000</a></button>
+                <br>
+                <button class="PlantOptionsButton" id="GrowBanana">Banana Buy: $<a id="PeasPrice">65,000</a></button>
             </div>
 
         </section>
@@ -1013,6 +1042,8 @@
                 <button class="PlantOptionsButton" id="MakeKetchup">Ketchup: 4 Tomatoes</button>
                 <br>
                 <button class="PlantOptionsButton" id="MakeTurnipTart">Turnip tartiflette: 2 Turnips</button>
+                <br>
+                <button class="PlantOptionsButton" id="MakeBananaBread">Banana Bread: 2 Bananas, 1 Wheat</button>
                 <br>
             </div>
             
@@ -1101,9 +1132,12 @@
     <br>
     <div class="Farms" id="Farms2">
         <button class="NewFarm" id="CreateFarmButton" onclick="OpenPlotCreationUI()">+</button>
+    </div>
 
+    <div class="MenuUI">
 
     </div>
+
 
 
     <script>
@@ -1133,7 +1167,7 @@
             return RemovedDecimals;
         }
 
-        var Dollars = 40; /* Starting Price 40 */
+        var Dollars = 4000000000; /* Starting Price 40 */
 
         function UpdateMoney() {
             document.getElementById("Money").innerHTML = formatNumber(Dollars);
@@ -1181,6 +1215,7 @@
             var Wheats = 0;
             var Turnips = 0;
             var Peass = 0;
+            var Bananas = 0;
             for (const item in Inventory) {
                 if (Inventory[item] == "Patato") {
                     Patatos += 1;
@@ -1196,6 +1231,8 @@
                     Turnips += 1;
                 } else if (Inventory[item] == "Peas") {
                     Peass += 1;
+                } else if (Inventory[item] == "Banana") {
+                    Bananas += 1;
                 }
             }
 
@@ -1235,6 +1272,12 @@
                     document.getElementById('CookOptions').style.display = 'none';
                 }
             }
+            document.getElementById("MakeBananaBread").onclick = function () {
+                if (Bananas >= 2 && Wheats >= 1) {
+                    Cook("BananaBread", Oven);
+                    document.getElementById('CookOptions').style.display = 'none';
+                }
+            }
         }
 
 
@@ -1264,6 +1307,10 @@
                 DisplayInventory();
             } else if (Product == "TurnipTart") {
                 Inventory.splice(Inventory.indexOf("Turnip"), 2);
+                DisplayInventory();
+            } else if (Product == "BananaBread") {
+                Inventory.splice(Inventory.indexOf("Banana"), 2);
+                Inventory.splice(Inventory.indexOf("Wheat"), 1);
                 DisplayInventory();
             } 
 
@@ -1479,6 +1526,10 @@
                         Dollars += 10000;
                     } else if (Item == "TurnipTart") {
                         Dollars += 35000;
+                    } else if (Item == "Banana") {
+                        Dollars += 170000;
+                    } else if (Item == "BananaBread") {
+                        Dollars += 250000;
                     }
                 }
                 Inventory = [];
@@ -1521,6 +1572,12 @@
             } else if (index == "TurnipTart") {
                 Dollars += 35000;
                 Inventory.splice(Inventory.indexOf("TurnipTart"), 1);
+            } else if (index == "Banana") {
+                Dollars += 170000;
+                Inventory.splice(Inventory.indexOf("Banana"), 1);
+            } else if (index == "BananaBread") {
+                Dollars += 250000;
+                Inventory.splice(Inventory.indexOf("BananaBread"), 1);
             }
 
 
@@ -1592,6 +1649,12 @@
                         Grow(SendPlot, SendButton, "Peas")
                     }
                 }
+                document.getElementById("GrowBanana").onclick = function () {
+                    if (Dollars >= 65000 * Number(PlotInfo[1])) {
+                        Dollars -= 65000 * Number(PlotInfo[1]);
+                        Grow(SendPlot, SendButton, "Banana")
+                    }
+                }
                 document.getElementById("ExitButton").onclick = function () {
                     const OptionUI = document.getElementById("PlantOptions");
                     OptionUI.style.display = "none";
@@ -1643,6 +1706,10 @@
                     if (Plant == "Peas") {
                         NewPatato = document.getElementById("CopyablePeasPlant").cloneNode(true);
                         PlotInfo[3] = "Peas";
+                    }
+                    if (Plant == "Banana") {
+                        NewPatato = document.getElementById("CopyableBananaPlant").cloneNode(true);
+                        PlotInfo[3] = "Banana";
                     }
 
                     NewPatato.style.display = "block";
