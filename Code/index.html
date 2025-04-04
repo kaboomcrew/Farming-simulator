@@ -8,6 +8,7 @@
 </head>
 <style>
     body {
+        padding-left: 110px;
         background-color: green;
         background: radial-gradient(circle, rgba(0, 128, 0, 1) 0%, rgba(24, 131, 24, 1) 100%);
         overflow: hidden;
@@ -808,9 +809,70 @@
         left: 50%;
         transform: translateX(-50%);
     }
+    .Tunnel {
+        height: 100px;
+        width: 100px;
+        background-color: rgb(109, 109, 109);
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+    .InnerTunnel {
+        height: 80px;
+        width: 70px;
+        background: rgb(98,98,98);
+        background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(98,98,98,1) 100%);
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 5px rgb(64, 64, 64) solid;
+    }
+    .MountainBorder {
+        height: 100vh;
+        width: 60px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-color: rgb(98,98,98);
+    }
+
+    .EnterHouseButtonLEFT {
+        position: absolute;
+        height: 50px;
+        width: 100px;
+        right: -100px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: solid brown 5px;
+        background-color: crimson;
+        border-radius: 5px;
+        font-size: 17px;
+        color: white;
+        transition: ease 500ms;
+    }
+
+    .EnterHouseButtonLEFT:hover {
+        color: white;
+        border: crimson solid 1px;
+        background-color: brown;
+    }
 </style>
 
 <body>
+    <div class="FarmersMarket">
+        
+    </div>
+
+    <div class="Tunnel">
+        <div class="InnerTunnel">
+            <button class="EnterHouseButtonLEFT">Travel</button>
+        </div>
+    </div>
+
     <div id="MenuUI" class="MenuUI">
         <div class="SideBar">
             <h3 class="MenuTitle" style="text-align: center;">Farming Simulator</h3>
